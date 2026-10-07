@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="255" viewBox="0 0 760 255" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif">
+  <defs>
+    <marker id="g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2e7d32"/></marker>
+  </defs>
+  <rect width="760" height="255" rx="12" fill="#ffffff"/>
+  <text x="380" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#212121">Names stay the same. IPs don't.</text>
+
+  <rect x="20" y="60" width="190" height="80" rx="8" fill="#fff8e1" stroke="#f9a825"/>
+  <text x="115" y="88" text-anchor="middle" font-size="14" font-weight="700" fill="#f57f17">ingest config</text>
+  <text x="115" y="118" text-anchor="middle" font-size="14" font-family="Menlo,Consolas,monospace" fill="#212121">DB_HOST=postgres</text>
+
+  <rect x="420" y="55" width="320" height="42" rx="6" fill="#e8f5e9" stroke="#43a047"/>
+  <text x="580" y="81" text-anchor="middle" font-size="13" fill="#1b5e20"><tspan font-weight="700">Today:</tspan> postgres → 172.18.0.2 ✓</text>
+  <rect x="420" y="112" width="320" height="42" rx="6" fill="#e8f5e9" stroke="#43a047"/>
+  <text x="580" y="138" text-anchor="middle" font-size="13" fill="#1b5e20"><tspan font-weight="700">After rm + run again:</tspan> postgres → 172.18.0.3 ✓</text>
+
+  <path d="M210,90 C300,90 340,76 418,76" fill="none" stroke="#2e7d32" stroke-width="2" marker-end="url(#g)"/>
+  <path d="M210,112 C300,112 340,133 418,133" fill="none" stroke="#2e7d32" stroke-width="2" marker-end="url(#g)"/>
+  <text x="315" y="72" text-anchor="middle" font-size="11" fill="#757575">Docker DNS looks it up</text>
+  <text x="315" y="150" text-anchor="middle" font-size="11" fill="#757575">every time</text>
+
+  <rect x="20" y="175" width="720" height="36" rx="6" fill="#ffebee" stroke="#c62828"/>
+  <text x="380" y="198" text-anchor="middle" font-size="13" fill="#c62828">Hard-coding <tspan font-family="Menlo,Consolas,monospace">DB_HOST=172.18.0.2</tspan> instead would break after the recreate ✗</text>
+  <text x="380" y="238" text-anchor="middle" font-size="12" fill="#616161">The config never changes; Docker DNS always returns the container's current IP.</text>
+</svg>

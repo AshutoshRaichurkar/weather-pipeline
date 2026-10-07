@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="300" viewBox="0 0 760 300" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif">
+  <defs>
+    <marker id="o" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef6c00"/></marker>
+    <marker id="g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2e7d32"/></marker>
+  </defs>
+  <rect width="760" height="300" rx="12" fill="#ffffff"/>
+  <text x="380" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#212121">A pip cache mount persists between builds but never enters the image</text>
+
+  <rect x="290" y="45" width="180" height="44" rx="22" fill="#fafafa" stroke="#9e9e9e"/>
+  <text x="380" y="72" text-anchor="middle" font-size="13" font-weight="600" fill="#616161">PyPI (internet)</text>
+
+  <rect x="20" y="115" width="230" height="95" rx="8" fill="#e3f2fd" stroke="#1565c0"/>
+  <text x="135" y="139" text-anchor="middle" font-size="14" font-weight="700" fill="#0d47a1">Build 1</text>
+  <text x="135" y="160" text-anchor="middle" font-size="11" fill="#0d47a1">downloads all 8 packages</text>
+  <text x="135" y="178" text-anchor="middle" font-size="11" fill="#0d47a1">installs them into the image</text>
+
+  <rect x="510" y="115" width="230" height="95" rx="8" fill="#e3f2fd" stroke="#1565c0"/>
+  <text x="625" y="139" text-anchor="middle" font-size="14" font-weight="700" fill="#0d47a1">Build 2</text>
+  <text x="625" y="160" text-anchor="middle" font-size="11" fill="#0d47a1">requirements.txt changed</text>
+  <text x="625" y="178" text-anchor="middle" font-size="11" fill="#0d47a1">"Using cached ..." for the 8</text>
+  <text x="625" y="196" text-anchor="middle" font-size="11" fill="#0d47a1">downloads only the new one</text>
+
+  <path d="M300,80 C220,88 160,100 140,113" fill="none" stroke="#ef6c00" stroke-width="2.5" marker-end="url(#o)"/>
+  <text x="200" y="88" text-anchor="middle" font-size="11" font-weight="600" fill="#e65100">8 downloads</text>
+  <path d="M460,80 C540,88 600,100 620,113" fill="none" stroke="#ef6c00" stroke-width="1" stroke-dasharray="3 3" marker-end="url(#o)"/>
+  <text x="560" y="88" text-anchor="middle" font-size="11" fill="#e65100">1 download</text>
+
+  <rect x="275" y="140" width="210" height="80" rx="10" fill="#fff8e1" stroke="#f9a825" stroke-width="2"/>
+  <text x="380" y="163" text-anchor="middle" font-size="12" font-weight="700" fill="#f57f17">BuildKit cache mount</text>
+  <text x="380" y="182" text-anchor="middle" font-size="11" font-family="Menlo,Consolas,monospace" fill="#f57f17">/root/.cache/pip</text>
+  <text x="380" y="200" text-anchor="middle" font-size="11" fill="#f57f17">lives in Docker, outside images</text>
+
+  <line x1="250" y1="175" x2="272" y2="175" stroke="#2e7d32" stroke-width="2" marker-end="url(#g)"/>
+  <text x="262" y="232" text-anchor="middle" font-size="11" fill="#2e7d32">saves downloads</text>
+  <line x1="485" y1="175" x2="507" y2="175" stroke="#2e7d32" stroke-width="2" marker-end="url(#g)"/>
+  <text x="498" y="232" text-anchor="middle" font-size="11" fill="#2e7d32">reuses them</text>
+
+  <rect x="20" y="250" width="720" height="36" rx="6" fill="#e8f5e9" stroke="#43a047"/>
+  <text x="380" y="273" text-anchor="middle" font-size="12" fill="#1b5e20">The image gets the installed packages, not the downloads.  ·  Don't combine with <tspan font-family="Menlo,Consolas,monospace">--no-cache-dir</tspan>: it disables the cache.</text>
+</svg>

@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="280" viewBox="0 0 760 280" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif">
+  <defs>
+    <marker id="k" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#757575"/></marker>
+  </defs>
+  <rect width="760" height="280" rx="12" fill="#ffffff"/>
+  <text x="380" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#212121">One image, many containers</text>
+
+  <text x="140" y="60" text-anchor="middle" font-size="14" font-weight="700" fill="#37474f">Image: postgres:16</text>
+  <rect x="40" y="70" width="200" height="30" rx="4" fill="#eceff1" stroke="#90a4ae"/>
+  <text x="140" y="90" text-anchor="middle" font-size="12" fill="#37474f">config</text>
+  <rect x="40" y="104" width="200" height="30" rx="4" fill="#eceff1" stroke="#90a4ae"/>
+  <text x="140" y="124" text-anchor="middle" font-size="12" fill="#37474f">Postgres binaries</text>
+  <rect x="40" y="138" width="200" height="30" rx="4" fill="#eceff1" stroke="#90a4ae"/>
+  <text x="140" y="158" text-anchor="middle" font-size="12" fill="#37474f">system libraries</text>
+  <rect x="40" y="172" width="200" height="30" rx="4" fill="#eceff1" stroke="#90a4ae"/>
+  <text x="140" y="192" text-anchor="middle" font-size="12" fill="#37474f">base OS (Debian)</text>
+  <text x="140" y="222" text-anchor="middle" font-size="12" font-weight="600" fill="#546e7a">read-only layers</text>
+
+  <!-- containers -->
+  <text x="385" y="70" text-anchor="middle" font-size="13" font-weight="700" fill="#0d47a1">container pg</text>
+  <rect x="320" y="80" width="130" height="36" rx="5" fill="#fff3e0" stroke="#ef6c00"/>
+  <text x="385" y="103" text-anchor="middle" font-size="12" font-weight="600" fill="#e65100">writable layer</text>
+  <rect x="320" y="120" width="130" height="82" rx="5" fill="#eceff1" stroke="#90a4ae" stroke-dasharray="4 3"/>
+  <text x="385" y="157" text-anchor="middle" font-size="12" fill="#546e7a">image layers</text>
+  <text x="385" y="175" text-anchor="middle" font-size="11" fill="#546e7a">(shared)</text>
+
+  <text x="530" y="70" text-anchor="middle" font-size="13" font-weight="700" fill="#0d47a1">container A</text>
+  <rect x="465" y="80" width="130" height="36" rx="5" fill="#fff3e0" stroke="#ef6c00"/>
+  <text x="530" y="103" text-anchor="middle" font-size="12" font-weight="600" fill="#e65100">writable layer</text>
+  <rect x="465" y="120" width="130" height="82" rx="5" fill="#eceff1" stroke="#90a4ae" stroke-dasharray="4 3"/>
+  <text x="530" y="157" text-anchor="middle" font-size="12" fill="#546e7a">image layers</text>
+  <text x="530" y="175" text-anchor="middle" font-size="11" fill="#546e7a">(shared)</text>
+
+  <text x="675" y="70" text-anchor="middle" font-size="13" font-weight="700" fill="#0d47a1">container B</text>
+  <rect x="610" y="80" width="130" height="36" rx="5" fill="#fff3e0" stroke="#ef6c00"/>
+  <text x="675" y="103" text-anchor="middle" font-size="12" font-weight="600" fill="#e65100">writable layer</text>
+  <rect x="610" y="120" width="130" height="82" rx="5" fill="#eceff1" stroke="#90a4ae" stroke-dasharray="4 3"/>
+  <text x="675" y="157" text-anchor="middle" font-size="12" fill="#546e7a">image layers</text>
+  <text x="675" y="175" text-anchor="middle" font-size="11" fill="#546e7a">(shared)</text>
+
+  <line x1="244" y1="141" x2="314" y2="141" stroke="#757575" stroke-width="2" marker-end="url(#k)"/>
+  <text x="279" y="133" text-anchor="middle" font-size="11" font-family="Menlo,Consolas,monospace" fill="#616161">run</text>
+  <text x="380" y="262" text-anchor="middle" font-size="12" fill="#616161">Containers share the image's layers. Each gets its own thin writable layer, where all its changes go.  ·  image = class, container = object</text>
+</svg>

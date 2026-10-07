@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="345" viewBox="0 0 760 345" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif">
+  <rect width="760" height="345" rx="12" fill="#ffffff"/>
+  <text x="380" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#212121">You edit one line of ingest.py and rebuild. What reruns?</text>
+  <text x="380" y="48" text-anchor="middle" font-size="12" fill="#616161">Once one step misses the cache, every step after it rebuilds too.</text>
+
+  <!-- bad -->
+  <rect x="20" y="62" width="350" height="230" rx="10" fill="#fafafa" stroke="#bdbdbd"/>
+  <text x="195" y="86" text-anchor="middle" font-size="14" font-weight="700" fill="#c62828">✗ Code copied first (Day 2)</text>
+  <rect x="40" y="98" width="310" height="30" rx="5" fill="#e8f5e9" stroke="#43a047"/>
+  <text x="54" y="118" font-size="12" font-family="Menlo,Consolas,monospace" fill="#1b5e20">FROM python:3.12-slim</text>
+  <text x="340" y="118" text-anchor="end" font-size="11" font-weight="700" fill="#2e7d32">CACHED</text>
+  <rect x="40" y="132" width="310" height="30" rx="5" fill="#e8f5e9" stroke="#43a047"/>
+  <text x="54" y="152" font-size="12" font-family="Menlo,Consolas,monospace" fill="#1b5e20">WORKDIR /app</text>
+  <text x="340" y="152" text-anchor="end" font-size="11" font-weight="700" fill="#2e7d32">CACHED</text>
+  <rect x="40" y="166" width="310" height="30" rx="5" fill="#ffebee" stroke="#c62828" stroke-width="2"/>
+  <text x="54" y="186" font-size="12" font-family="Menlo,Consolas,monospace" fill="#b71c1c">COPY . .</text>
+  <text x="340" y="186" text-anchor="end" font-size="11" font-weight="700" fill="#c62828">CHANGED</text>
+  <rect x="40" y="200" width="310" height="30" rx="5" fill="#ffebee" stroke="#c62828"/>
+  <text x="54" y="220" font-size="12" font-family="Menlo,Consolas,monospace" fill="#b71c1c">RUN pip install ...</text>
+  <text x="340" y="220" text-anchor="end" font-size="11" font-weight="700" fill="#c62828">RERUNS 😩</text>
+  <rect x="40" y="234" width="310" height="30" rx="5" fill="#ffebee" stroke="#c62828"/>
+  <text x="54" y="254" font-size="12" font-family="Menlo,Consolas,monospace" fill="#b71c1c">ENTRYPOINT [...]</text>
+  <text x="340" y="254" text-anchor="end" font-size="11" font-weight="700" fill="#c62828">RERUNS</text>
+  <text x="195" y="283" text-anchor="middle" font-size="12" font-weight="600" fill="#c62828">every package downloads and installs again</text>
+
+  <!-- good -->
+  <rect x="390" y="62" width="350" height="230" rx="10" fill="#e8f5e9" stroke="#43a047"/>
+  <text x="565" y="86" text-anchor="middle" font-size="14" font-weight="700" fill="#2e7d32">✓ Dependencies first (Day 3)</text>
+  <rect x="410" y="98" width="310" height="30" rx="5" fill="#ffffff" stroke="#43a047"/>
+  <text x="424" y="118" font-size="12" font-family="Menlo,Consolas,monospace" fill="#1b5e20">FROM python:3.12-slim</text>
+  <text x="710" y="118" text-anchor="end" font-size="11" font-weight="700" fill="#2e7d32">CACHED</text>
+  <rect x="410" y="132" width="310" height="30" rx="5" fill="#ffffff" stroke="#43a047"/>
+  <text x="424" y="152" font-size="12" font-family="Menlo,Consolas,monospace" fill="#1b5e20">WORKDIR /app</text>
+  <text x="710" y="152" text-anchor="end" font-size="11" font-weight="700" fill="#2e7d32">CACHED</text>
+  <rect x="410" y="166" width="310" height="30" rx="5" fill="#ffffff" stroke="#43a047"/>
+  <text x="424" y="186" font-size="12" font-family="Menlo,Consolas,monospace" fill="#1b5e20">COPY requirements.txt .</text>
+  <text x="710" y="186" text-anchor="end" font-size="11" font-weight="700" fill="#2e7d32">CACHED</text>
+  <rect x="410" y="200" width="310" height="30" rx="5" fill="#ffffff" stroke="#43a047"/>
+  <text x="424" y="220" font-size="12" font-family="Menlo,Consolas,monospace" fill="#1b5e20">RUN pip install ...</text>
+  <text x="710" y="220" text-anchor="end" font-size="11" font-weight="700" fill="#2e7d32">CACHED 🎉</text>
+  <rect x="410" y="234" width="310" height="30" rx="5" fill="#ffebee" stroke="#c62828" stroke-width="2"/>
+  <text x="424" y="254" font-size="12" font-family="Menlo,Consolas,monospace" fill="#b71c1c">COPY . .</text>
+  <text x="710" y="254" text-anchor="end" font-size="11" font-weight="700" fill="#c62828">CHANGED · 24 kB</text>
+  <text x="565" y="283" text-anchor="middle" font-size="12" font-weight="600" fill="#2e7d32">only your 24 kB of code is copied again</text>
+
+  <text x="380" y="322" text-anchor="middle" font-size="13" font-weight="600" fill="#212121">Rule: order instructions from least to most frequently changed.</text>
+</svg>

@@ -1,17 +1,44 @@
 # Day 2: Your first Dockerfile
 
-## Key ideas
+## Objectives
+
+By the end of the day I can:
+
+1. Write a Dockerfile for a Python script using `FROM`, `WORKDIR`, `COPY`, `RUN`, and `ENTRYPOINT`.
+2. Explain the build context and use `.dockerignore`.
+3. Explain what happens at build time vs. run time.
+4. Explain `CMD` vs. `ENTRYPOINT`, and exec form vs. shell form.
+5. Build an image, run it, and connect it to Postgres using `host.docker.internal`.
+
+## 1. Build vs. run
+
+![Dockerfile plus build context goes through docker build into an image; docker run turns the image into a container. RUN executes at build, ENTRYPOINT at run.](img/day02-build-vs-run.svg)
 
 - **Dockerfile:** a recipe for building an image. Instructions run top to bottom; each one creates a layer.
-- **Build context:** the folder passed to `docker build`. It's sent to the build engine, and `COPY` can only reach files inside it.
-- **`.dockerignore`:** excludes files from the build context. Keeps builds fast and keeps secrets (`.env`) and junk (`venv`, `.git`) out of the image.
-- **Build vs. run:**
-  - `docker build` turns a Dockerfile into an **image**. `RUN` lines execute now, and `ENTRYPOINT`/`CMD` are only recorded.
-  - `docker run` turns an image into a **container**. `ENTRYPOINT`/`CMD` execute now.
-  - Like compiling vs. running a program: `pip install` happens once at build time and is reused by every container.
+- `docker build` turns a Dockerfile into an **image**. `RUN` lines execute now, and `ENTRYPOINT`/`CMD` are only recorded.
+- `docker run` turns an image into a **container**. `ENTRYPOINT`/`CMD` execute now.
+- Like compiling vs. running a program: `pip install` happens once at build time and is reused by every container.
 - **Image names** come from `docker build -t`, not from the Dockerfile. No tag means `:latest`. The name lives in Docker on your machine, not in the repo.
 - **Container names** come from `docker run --name`. Without it, Docker picks a random name like `eager_turing`.
+
+**Why it matters:** packaging the app with its dependencies means it runs the same everywhere, with no venv to set up. Knowing *when* each instruction runs explains why code changes need a rebuild and why containers start in seconds.
+
+## 2. The build context and `.dockerignore`
+
+![docker build ingest/ sends only the files in ingest/, minus what .dockerignore filters out. Files outside ingest/ are never sent, so COPY can't reach them.](img/day02-build-context.svg)
+
+- **Build context:** the folder passed to `docker build`. It's sent to the build engine, and `COPY` can only reach files inside it.
+- **`.dockerignore`:** excludes files from the build context. Keeps builds fast and keeps secrets (`.env`) and junk (`venv`, `.git`) out of the image.
+
+**Why it matters:** a forgotten `.env` copied into an image is a leaked secret for anyone who pulls it. A small context also makes builds faster and caching more reliable (Day 3).
+
+## 3. `localhost` and `host.docker.internal`
+
+![Without DB_HOST, the container connects to its own localhost and gets Connection refused. With DB_HOST=host.docker.internal, it reaches the Mac's port 5432, which -p forwards into pg.](img/day02-host-docker-internal.svg)
+
 - **`localhost` inside a container is the container itself**, because each container has its own network namespace. `host.docker.internal` (Docker Desktop) points back to your machine.
+
+**Why it matters:** this is the most common "works on my machine, fails in Docker" error. Reading connection settings from environment variables means the same code works on the Mac and in a container. It's a temporary fix; Day 5 replaces it with a Docker network.
 
 ## Dockerfile instructions
 
@@ -28,6 +55,10 @@
 
 ## `CMD` vs. `ENTRYPOINT`
 
+![The same command docker run weather-ingest --city boston: with CMD the words replace the command and it fails; with ENTRYPOINT they're appended and python ingest.py --city boston runs.](img/day02-cmd-vs-entrypoint.svg)
+
+**Why it matters:** it decides whether users can pass flags to your image or accidentally replace what it runs. A classic interview question.
+
 With the Dockerfile having one of these:
 
 | You run | `ENTRYPOINT ["python", "ingest.py"]` | `CMD ["python", "ingest.py"]` |
@@ -41,6 +72,10 @@ With the Dockerfile having one of these:
 - Use `ENTRYPOINT` for single-purpose images (like ingest). Use `CMD` alone for general-purpose images (like `python:3.12-slim`, whose `CMD` is `["python3"]`).
 
 ## Exec form vs. shell form
+
+![docker stop sends SIGTERM to PID 1. In exec form python is PID 1 and shuts down cleanly. In shell form /bin/sh is PID 1, doesn't pass the signal on, and Docker kills python after 10 seconds.](img/day02-exec-vs-shell.svg)
+
+**Why it matters:** with shell form, every `docker stop` takes 10 seconds and kills your app mid-work, which can leave half-written data. Exec form lets it shut down cleanly.
 
 | Form | Example | PID 1 |
 | --- | --- | --- |

@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="300" viewBox="0 0 760 300" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif">
+  <rect width="760" height="300" rx="12" fill="#ffffff"/>
+
+  <!-- bridge -->
+  <rect x="20" y="20" width="233" height="260" rx="10" fill="#fafafa" stroke="#bdbdbd"/>
+  <text x="136" y="46" text-anchor="middle" font-size="15" font-weight="700" fill="#1565c0">bridge (default)</text>
+  <rect x="35" y="62" width="203" height="150" rx="8" fill="#f5f5f5" stroke="#9e9e9e"/>
+  <text x="45" y="80" font-size="11" fill="#616161">host</text>
+  <rect x="48" y="88" width="177" height="112" rx="8" fill="#e8f5e9" stroke="#43a047" stroke-dasharray="5 3"/>
+  <text x="58" y="106" font-size="11" fill="#2e7d32">private network</text>
+  <rect x="58" y="120" width="74" height="60" rx="6" fill="#e3f2fd" stroke="#1565c0"/>
+  <text x="95" y="145" text-anchor="middle" font-size="12" font-weight="600" fill="#0d47a1">app</text>
+  <text x="95" y="164" text-anchor="middle" font-size="10" fill="#0d47a1">172.18.0.2</text>
+  <rect x="141" y="120" width="74" height="60" rx="6" fill="#e3f2fd" stroke="#1565c0"/>
+  <text x="178" y="145" text-anchor="middle" font-size="12" font-weight="600" fill="#0d47a1">db</text>
+  <text x="178" y="164" text-anchor="middle" font-size="10" fill="#0d47a1">172.18.0.3</text>
+  <text x="136" y="236" text-anchor="middle" font-size="12" fill="#212121">Own private IPs, isolated.</text>
+  <text x="136" y="253" text-anchor="middle" font-size="12" fill="#212121">-p lets outside traffic in.</text>
+  <text x="136" y="270" text-anchor="middle" font-size="11" font-weight="600" fill="#1565c0">Use: almost everything</text>
+
+  <!-- host -->
+  <rect x="263" y="20" width="233" height="260" rx="10" fill="#fafafa" stroke="#bdbdbd"/>
+  <text x="380" y="46" text-anchor="middle" font-size="15" font-weight="700" fill="#e65100">host</text>
+  <rect x="278" y="62" width="203" height="150" rx="8" fill="#f5f5f5" stroke="#9e9e9e"/>
+  <text x="288" y="80" font-size="11" fill="#616161">host network (its IPs and ports)</text>
+  <rect x="298" y="100" width="163" height="80" rx="6" fill="#fff3e0" stroke="#ef6c00"/>
+  <text x="380" y="130" text-anchor="middle" font-size="12" font-weight="600" fill="#e65100">container</text>
+  <text x="380" y="150" text-anchor="middle" font-size="10" fill="#e65100">uses the host's network</text>
+  <text x="380" y="166" text-anchor="middle" font-size="10" fill="#e65100">directly, no walls</text>
+  <text x="380" y="236" text-anchor="middle" font-size="12" fill="#212121">No isolation, -p not needed.</text>
+  <text x="380" y="253" text-anchor="middle" font-size="12" fill="#212121">On a Mac: the Docker VM's network.</text>
+  <text x="380" y="270" text-anchor="middle" font-size="11" font-weight="600" fill="#e65100">Use: rare, Linux performance</text>
+
+  <!-- none -->
+  <rect x="506" y="20" width="233" height="260" rx="10" fill="#fafafa" stroke="#bdbdbd"/>
+  <text x="622" y="46" text-anchor="middle" font-size="15" font-weight="700" fill="#616161">none</text>
+  <rect x="545" y="90" width="155" height="80" rx="6" fill="#ffffff" stroke="#616161" stroke-width="2"/>
+  <text x="622" y="120" text-anchor="middle" font-size="12" font-weight="600" fill="#424242">container</text>
+  <text x="622" y="140" text-anchor="middle" font-size="10" fill="#424242">only its own localhost</text>
+  <line x1="622" y1="170" x2="622" y2="196" stroke="#c62828" stroke-width="2" stroke-dasharray="4 3"/>
+  <text x="622" y="212" text-anchor="middle" font-size="12" font-weight="700" fill="#c62828">✗ no network at all</text>
+  <text x="622" y="236" text-anchor="middle" font-size="12" fill="#212121">Can't reach anything,</text>
+  <text x="622" y="253" text-anchor="middle" font-size="12" fill="#212121">can't even look up a name.</text>
+  <text x="622" y="270" text-anchor="middle" font-size="11" font-weight="600" fill="#616161">Use: jobs that must stay offline</text>
+</svg>

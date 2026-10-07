@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="275" viewBox="0 0 760 275" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif">
+  <defs>
+    <marker id="b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1565c0"/></marker>
+    <marker id="r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#c62828"/></marker>
+    <marker id="g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2e7d32"/></marker>
+  </defs>
+  <rect width="760" height="275" rx="12" fill="#ffffff"/>
+  <text x="380" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#212121">A container's life, and when the data dies</text>
+
+  <rect x="20" y="62" width="120" height="56" rx="6" fill="#eceff1" stroke="#90a4ae"/>
+  <text x="80" y="87" text-anchor="middle" font-size="14" font-weight="700" fill="#37474f">image</text>
+  <text x="80" y="106" text-anchor="middle" font-size="11" fill="#546e7a">postgres:16</text>
+
+  <rect x="210" y="62" width="140" height="56" rx="6" fill="#e8f5e9" stroke="#2e7d32"/>
+  <text x="280" y="87" text-anchor="middle" font-size="14" font-weight="700" fill="#1b5e20">running</text>
+  <text x="280" y="106" text-anchor="middle" font-size="11" fill="#2e7d32">Up 5 minutes</text>
+
+  <rect x="420" y="62" width="140" height="56" rx="6" fill="#fff8e1" stroke="#f9a825"/>
+  <text x="490" y="87" text-anchor="middle" font-size="14" font-weight="700" fill="#f57f17">exited</text>
+  <text x="490" y="106" text-anchor="middle" font-size="11" fill="#f57f17">Exited (0)</text>
+
+  <rect x="630" y="62" width="110" height="56" rx="6" fill="#ffebee" stroke="#c62828" stroke-dasharray="4 3"/>
+  <text x="685" y="87" text-anchor="middle" font-size="14" font-weight="700" fill="#c62828">gone</text>
+  <text x="685" y="106" text-anchor="middle" font-size="11" fill="#c62828">no longer exists</text>
+
+  <line x1="140" y1="90" x2="207" y2="90" stroke="#1565c0" stroke-width="2" marker-end="url(#b)"/>
+  <text x="174" y="82" text-anchor="middle" font-size="11" font-family="Menlo,Consolas,monospace" fill="#1565c0">run</text>
+  <line x1="350" y1="80" x2="417" y2="80" stroke="#1565c0" stroke-width="2" marker-end="url(#b)"/>
+  <text x="384" y="72" text-anchor="middle" font-size="11" font-family="Menlo,Consolas,monospace" fill="#1565c0">stop</text>
+  <path d="M490,118 C490,150 280,150 280,121" fill="none" stroke="#2e7d32" stroke-width="2" marker-end="url(#g)"/>
+  <text x="385" y="158" text-anchor="middle" font-size="11" font-family="Menlo,Consolas,monospace" fill="#2e7d32">start (data still there)</text>
+  <line x1="560" y1="90" x2="627" y2="90" stroke="#c62828" stroke-width="2" marker-end="url(#r)"/>
+  <text x="594" y="82" text-anchor="middle" font-size="11" font-family="Menlo,Consolas,monospace" fill="#c62828">rm</text>
+
+  <line x1="20" y1="178" x2="740" y2="178" stroke="#e0e0e0"/>
+  <text x="30" y="200" font-size="12" font-family="Menlo,Consolas,monospace" fill="#212121">docker ps</text>
+  <text x="280" y="200" text-anchor="middle" font-size="14" fill="#2e7d32">✓ listed</text>
+  <text x="490" y="200" text-anchor="middle" font-size="14" fill="#c62828">✗ hidden</text>
+  <text x="685" y="200" text-anchor="middle" font-size="14" fill="#c62828">✗</text>
+  <line x1="20" y1="212" x2="740" y2="212" stroke="#e0e0e0"/>
+  <text x="30" y="233" font-size="12" font-family="Menlo,Consolas,monospace" fill="#212121">docker ps -a</text>
+  <text x="280" y="233" text-anchor="middle" font-size="14" fill="#2e7d32">✓ listed</text>
+  <text x="490" y="233" text-anchor="middle" font-size="14" fill="#2e7d32">✓ listed</text>
+  <text x="685" y="233" text-anchor="middle" font-size="14" fill="#c62828">✗</text>
+  <line x1="20" y1="245" x2="740" y2="245" stroke="#e0e0e0"/>
+  <text x="30" y="266" font-size="12" fill="#212121">writable layer (data)</text>
+  <text x="280" y="266" text-anchor="middle" font-size="14" fill="#2e7d32">✓ kept</text>
+  <text x="490" y="266" text-anchor="middle" font-size="14" fill="#2e7d32">✓ kept</text>
+  <text x="685" y="266" text-anchor="middle" font-size="14" font-weight="700" fill="#c62828">✗ deleted</text>
+</svg>

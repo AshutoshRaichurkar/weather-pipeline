@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="255" viewBox="0 0 760 255" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif">
+  <defs>
+    <marker id="b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1565c0"/></marker>
+    <marker id="g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2e7d32"/></marker>
+  </defs>
+  <rect width="760" height="255" rx="12" fill="#ffffff"/>
+  <text x="380" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#212121">docker build makes an image. docker run makes a container.</text>
+
+  <rect x="20" y="55" width="180" height="90" rx="8" fill="#fff8e1" stroke="#f9a825"/>
+  <text x="110" y="83" text-anchor="middle" font-size="14" font-weight="700" fill="#f57f17">Dockerfile</text>
+  <text x="110" y="104" text-anchor="middle" font-size="12" fill="#f57f17">+ build context</text>
+  <text x="110" y="122" text-anchor="middle" font-size="11" font-family="Menlo,Consolas,monospace" fill="#f57f17">ingest/</text>
+
+  <rect x="290" y="55" width="180" height="90" rx="8" fill="#eceff1" stroke="#90a4ae"/>
+  <text x="380" y="83" text-anchor="middle" font-size="14" font-weight="700" fill="#37474f">Image</text>
+  <text x="380" y="104" text-anchor="middle" font-size="11" font-family="Menlo,Consolas,monospace" fill="#37474f">weather-ingest:latest</text>
+  <text x="380" y="122" text-anchor="middle" font-size="11" fill="#546e7a">read-only · packages installed</text>
+
+  <rect x="560" y="55" width="180" height="90" rx="8" fill="#e3f2fd" stroke="#1565c0"/>
+  <text x="650" y="83" text-anchor="middle" font-size="14" font-weight="700" fill="#0d47a1">Container</text>
+  <text x="650" y="104" text-anchor="middle" font-size="11" fill="#0d47a1">running ingest.py</text>
+  <text x="650" y="122" text-anchor="middle" font-size="11" fill="#0d47a1">exits when the script ends</text>
+
+  <line x1="200" y1="100" x2="287" y2="100" stroke="#1565c0" stroke-width="2.5" marker-end="url(#b)"/>
+  <text x="244" y="91" text-anchor="middle" font-size="11" font-family="Menlo,Consolas,monospace" font-weight="700" fill="#1565c0">build</text>
+  <line x1="470" y1="100" x2="557" y2="100" stroke="#2e7d32" stroke-width="2.5" marker-end="url(#g)"/>
+  <text x="514" y="91" text-anchor="middle" font-size="11" font-family="Menlo,Consolas,monospace" font-weight="700" fill="#2e7d32">run</text>
+
+  <rect x="120" y="165" width="250" height="50" rx="6" fill="#e3f2fd" stroke="#1565c0" stroke-dasharray="4 3"/>
+  <text x="245" y="186" text-anchor="middle" font-size="12" font-weight="600" fill="#0d47a1">at build: RUN lines execute</text>
+  <text x="245" y="204" text-anchor="middle" font-size="11" fill="#0d47a1">pip install happens once, saved in the image</text>
+  <rect x="390" y="165" width="250" height="50" rx="6" fill="#e8f5e9" stroke="#2e7d32" stroke-dasharray="4 3"/>
+  <text x="515" y="186" text-anchor="middle" font-size="12" font-weight="600" fill="#1b5e20">at run: ENTRYPOINT executes</text>
+  <text x="515" y="204" text-anchor="middle" font-size="11" fill="#1b5e20">python ingest.py, every time</text>
+
+  <text x="380" y="240" text-anchor="middle" font-size="12" fill="#616161">Like compiling a program (build) and then running it (run).</text>
+</svg>

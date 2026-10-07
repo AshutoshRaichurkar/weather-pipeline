@@ -1,21 +1,65 @@
 # Day 1: Containers and the core CLI
 
-## Key ideas
+## Objectives
+
+By the end of the day I can:
+
+1. Explain the difference between an image and a container.
+2. Explain how a container differs from a VM, using namespaces and cgroups.
+3. Read an image name like `postgres:16` and explain tags vs. digests.
+4. Run, inspect, stop, start, and remove containers with the core CLI.
+5. Connect from my Mac to a container with port publishing (`-p`).
+6. Explain why a container's data disappears when the container is removed.
+
+## 1. Images and containers
+
+![An image is a stack of read-only layers. Each container shares those layers and gets its own thin writable layer.](img/day01-image-vs-container.svg)
 
 - **Image:** a read-only template, built from layers. Like a class.
 - **Container:** a running instance of an image. Like an object. One image can run many containers.
-- **Container vs. VM:** a VM runs a whole guest OS. A container is just a process on the host's kernel, isolated by:
+- **Writable layer:** each container gets a thin writable layer on top of the read-only image layers. Every file it creates or changes lives there.
+
+**Why it matters:** this explains almost everything that follows: why containers start fast (the image is already there), why many containers can share one image cheaply, and why data written inside a container is fragile (it's only in that container's writable layer).
+
+## 2. Containers vs. VMs
+
+![VMs each boot a full guest OS on a hypervisor. Containers are isolated processes sharing the host's single Linux kernel.](img/day01-container-vs-vm.svg)
+
+- A VM runs a whole guest OS with its own kernel. A container is just a process on the host's kernel, isolated by:
   - **Namespaces:** what the process can *see* (its own processes, network, filesystem, hostname).
   - **cgroups:** what it can *use* (CPU, memory, I/O limits).
+
+**Why it matters:** containers are MBs and start in seconds because there's no OS to boot. It's also the classic first interview question ("what is a container, really?"), and the answer is "a process with namespaces and cgroups."
+
+## 3. Image names, tags, and digests
+
+![docker.io/library/postgres:16 broken into registry, namespace, repository, and tag. The tag postgres:16 moves from 16.4 to 16.5; a digest always points to one image.](img/day01-tags.svg)
+
 - **Registry:** where images are stored. Docker Hub is the default; GHCR is GitHub's.
-- **Image names** are `registry/repository:tag`. `postgres:16` is short for `docker.io/library/postgres:16`.
+- **Image names** are `registry/namespace/repository:tag`. `postgres:16` is short for `docker.io/library/postgres:16`.
 - **Tag vs. digest:**
   - A tag (`postgres:16`) is a label that can move to a newer image. `16` means the newest 16.x.
   - A digest (`postgres@sha256:...`) always points to one exact image.
-- **Writable layer:** each container gets a thin writable layer on top of the read-only image layers. Every file it creates or changes lives there.
-  - `docker stop` keeps the writable layer, so `docker start` brings the data back.
-  - `docker rm` deletes it, so the data is gone. Databases need volumes (Day 4).
-- **Port publishing:** `-p HOST:CONTAINER` forwards a port on your machine into the container. Without it, the service is only reachable inside the container's network namespace.
+
+**Why it matters:** pinning a major version (`16`) gets bug fixes without surprise upgrades that could break data files. Digests come back on Day 10 (security) and tags on Day 13 (why deploying `:latest` is risky).
+
+## 4. The container lifecycle
+
+![Lifecycle: image, run, running, stop, exited, start back to running, rm, gone. docker ps shows only running; docker ps -a shows running and exited; the writable layer is kept until rm.](img/day01-lifecycle.svg)
+
+- `docker stop` keeps the writable layer, so `docker start` brings the data back.
+- `docker rm` deletes it, so the data is gone. Databases need volumes (Day 4).
+- A crashed container disappears from `docker ps` but still shows in `docker ps -a`, with its logs and exit code.
+
+**Why it matters:** knowing which command destroys what prevents accidental data loss, and `docker ps -a` is the first step in debugging any container that died.
+
+## 5. Port publishing
+
+![ingest.py on the Mac connects to localhost:5432, and -p 5432:5432 forwards it into the pg container's port 5432.](img/day01-port-publish.svg)
+
+- `-p HOST:CONTAINER` forwards a port on your machine into the container. Without it, the service is only reachable inside the container's network namespace.
+
+**Why it matters:** it's how anything outside Docker (your Mac, a browser, users) reaches a container. On Day 5 we learn the flip side: containers talking to each other don't need it, and databases shouldn't have it.
 
 ## Commands
 

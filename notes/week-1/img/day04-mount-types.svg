@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="330" viewBox="0 0 760 330" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif">
+  <rect width="760" height="330" rx="12" fill="#ffffff"/>
+  <text x="380" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#212121">Three ways to put data outside the container</text>
+
+  <rect x="165" y="45" width="430" height="125" rx="10" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+  <text x="380" y="68" text-anchor="middle" font-size="14" font-weight="700" fill="#0d47a1">container</text>
+  <rect x="190" y="80" width="380" height="24" rx="4" fill="#fff3e0" stroke="#ef6c00" stroke-dasharray="4 3"/>
+  <text x="380" y="97" text-anchor="middle" font-size="11" fill="#e65100">writable layer: deleted with the container ✗</text>
+  <text x="280" y="134" text-anchor="middle" font-size="11" font-family="Menlo,Consolas,monospace" fill="#0d47a1">/var/lib/postgresql/data</text>
+  <text x="430" y="134" text-anchor="middle" font-size="11" font-family="Menlo,Consolas,monospace" fill="#0d47a1">/usr/app/dbt</text>
+  <text x="522" y="134" text-anchor="middle" font-size="11" font-family="Menlo,Consolas,monospace" fill="#0d47a1">/tmp</text>
+  <circle cx="280" cy="150" r="6" fill="#2e7d32"/>
+  <circle cx="430" cy="150" r="6" fill="#f57f17"/>
+  <circle cx="522" cy="150" r="6" fill="#7b1fa2"/>
+
+  <path d="M280,156 C280,190 130,180 130,205" fill="none" stroke="#2e7d32" stroke-width="2.5"/>
+  <path d="M430,156 C430,185 380,180 380,205" fill="none" stroke="#f57f17" stroke-width="2.5"/>
+  <path d="M522,156 C522,190 630,180 630,205" fill="none" stroke="#7b1fa2" stroke-width="2.5"/>
+
+  <rect x="20" y="205" width="220" height="110" rx="8" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+  <text x="130" y="228" text-anchor="middle" font-size="14" font-weight="700" fill="#1b5e20">named volume</text>
+  <text x="130" y="248" text-anchor="middle" font-size="11" font-family="Menlo,Consolas,monospace" fill="#1b5e20">-v pgdata:/var/lib/...</text>
+  <text x="130" y="270" text-anchor="middle" font-size="11" fill="#1b5e20">Docker's storage area</text>
+  <text x="130" y="287" text-anchor="middle" font-size="11" fill="#1b5e20">Docker decides where</text>
+  <text x="130" y="305" text-anchor="middle" font-size="11" font-weight="600" fill="#1b5e20">database files</text>
+
+  <rect x="270" y="205" width="220" height="110" rx="8" fill="#fff8e1" stroke="#f9a825" stroke-width="2"/>
+  <text x="380" y="228" text-anchor="middle" font-size="14" font-weight="700" fill="#f57f17">bind mount</text>
+  <text x="380" y="248" text-anchor="middle" font-size="11" font-family="Menlo,Consolas,monospace" fill="#f57f17">-v "$(pwd)/dbt:/usr/app/dbt"</text>
+  <text x="380" y="270" text-anchor="middle" font-size="11" fill="#f57f17">a folder on your Mac</text>
+  <text x="380" y="287" text-anchor="middle" font-size="11" fill="#f57f17">you choose · live, both ways</text>
+  <text x="380" y="305" text-anchor="middle" font-size="11" font-weight="600" fill="#f57f17">code in dev · config, certs</text>
+
+  <rect x="520" y="205" width="220" height="110" rx="8" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2"/>
+  <text x="630" y="228" text-anchor="middle" font-size="14" font-weight="700" fill="#6a1b9a">tmpfs</text>
+  <text x="630" y="248" text-anchor="middle" font-size="11" font-family="Menlo,Consolas,monospace" fill="#6a1b9a">--tmpfs /tmp</text>
+  <text x="630" y="270" text-anchor="middle" font-size="11" fill="#6a1b9a">memory only</text>
+  <text x="630" y="287" text-anchor="middle" font-size="11" fill="#6a1b9a">gone when it stops</text>
+  <text x="630" y="305" text-anchor="middle" font-size="11" font-weight="600" fill="#6a1b9a">scratch space (Day 10)</text>
+</svg>

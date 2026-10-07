@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="300" viewBox="0 0 760 300" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif">
+  <defs>
+    <marker id="g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2e7d32"/></marker>
+    <marker id="r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#c62828"/></marker>
+  </defs>
+  <rect width="760" height="300" rx="12" fill="#ffffff"/>
+  <text x="380" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#212121">-p is a door from outside Docker into one container</text>
+
+  <rect x="20" y="50" width="170" height="225" rx="10" fill="#fafafa" stroke="#9e9e9e"/>
+  <text x="105" y="80" text-anchor="middle" font-size="14" font-weight="700" fill="#424242">Outside Docker</text>
+  <text x="105" y="112" text-anchor="middle" font-size="13" fill="#616161">your Mac</text>
+  <text x="105" y="134" text-anchor="middle" font-size="13" fill="#616161">a browser</text>
+  <text x="105" y="156" text-anchor="middle" font-size="13" fill="#616161">the internet</text>
+
+  <rect x="250" y="50" width="490" height="225" rx="10" fill="#e8f5e9" stroke="#43a047" stroke-dasharray="6 4"/>
+  <text x="266" y="264" font-size="13" font-weight="600" fill="#2e7d32">weather-net</text>
+
+  <rect x="280" y="95" width="110" height="38" rx="6" fill="#e3f2fd" stroke="#1565c0"/>
+  <text x="335" y="119" text-anchor="middle" font-size="14" fill="#0d47a1">ingest</text>
+  <rect x="280" y="150" width="110" height="38" rx="6" fill="#e3f2fd" stroke="#1565c0"/>
+  <text x="335" y="174" text-anchor="middle" font-size="14" fill="#0d47a1">dbt</text>
+  <rect x="450" y="95" width="130" height="60" rx="6" fill="#e3f2fd" stroke="#1565c0"/>
+  <text x="515" y="121" text-anchor="middle" font-size="14" font-weight="700" fill="#0d47a1">postgres</text>
+  <text x="515" y="141" text-anchor="middle" font-size="12" fill="#0d47a1">no -p</text>
+
+  <line x1="390" y1="114" x2="447" y2="118" stroke="#2e7d32" stroke-width="2" marker-end="url(#g)"/>
+  <line x1="390" y1="169" x2="447" y2="142" stroke="#2e7d32" stroke-width="2" marker-end="url(#g)"/>
+
+  <path d="M190,80 C290,70 400,70 452,96" fill="none" stroke="#c62828" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#r)"/>
+  <text x="420" y="80" font-size="16" font-weight="700" fill="#c62828">✗</text>
+  <text x="592" y="118" font-size="12" font-weight="600" fill="#c62828">✗ outside can't reach it</text>
+  <text x="592" y="135" font-size="12" fill="#c62828">(no door)</text>
+
+  <rect x="450" y="200" width="130" height="55" rx="6" fill="#fff3e0" stroke="#ef6c00" stroke-dasharray="4 3"/>
+  <text x="515" y="223" text-anchor="middle" font-size="14" font-weight="700" fill="#e65100">api (Day 8)</text>
+  <text x="515" y="243" text-anchor="middle" font-size="12" fill="#e65100">-p 8000:8000</text>
+  <line x1="190" y1="228" x2="447" y2="228" stroke="#2e7d32" stroke-width="2" marker-end="url(#g)"/>
+  <text x="330" y="220" text-anchor="middle" font-size="12" font-weight="600" fill="#2e7d32">localhost:8000 ✓</text>
+  <text x="592" y="222" font-size="12" font-weight="600" fill="#2e7d32">✓ has a door:</text>
+  <text x="592" y="239" font-size="12" fill="#2e7d32">it's meant for users</text>
+</svg>

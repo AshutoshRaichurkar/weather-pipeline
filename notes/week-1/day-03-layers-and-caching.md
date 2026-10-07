@@ -1,14 +1,43 @@
 # Day 3: Layers, caching, and image size
 
-## Key ideas
+## Objectives
+
+By the end of the day I can:
+
+1. Explain how each Dockerfile instruction creates a layer, and read `docker history`.
+2. Explain how the build cache decides what to reuse, and why one change rebuilds everything after it.
+3. Order a Dockerfile so code changes rebuild in seconds.
+4. Use a BuildKit cache mount to speed up dependency changes.
+5. Choose a base image (full, slim, Alpine, distroless) and explain the trade-offs.
+6. Explore an image's layers with `dive`.
+
+## 1. Layers
+
+![weather-ingest's layers from docker history: the python:3.12-slim base is about 205 MB (85%), pip install 28.6 MB, my code 24.6 kB.](img/day03-layers.svg)
 
 - **An image is a stack of layers.** Each `FROM`, `COPY`, and `RUN` adds one, holding only the files that step changed. Settings-only instructions (`WORKDIR`, `ENV`, `ENTRYPOINT`) add 0 B.
+
+**Why it matters:** the size of an image is the sum of its layers. In my image the base is 85% of the size and my code is almost nothing, so the base image choice matters far more than code size.
+
+## 2. The build cache and instruction order
+
+![Editing one line of ingest.py: with code copied first, COPY changes and pip install reruns. With dependencies first, pip install stays cached and only the 24 kB code layer is redone.](img/day03-cache-order.svg)
+
 - **The build cache.** Before each step Docker asks: have I done this exact step, on top of the exact same layers? If yes, it reuses the layer and shows `CACHED`.
   - `RUN` is keyed on the command text.
   - `COPY` is keyed on the **contents** of the files copied.
 - **Once one step misses the cache, every later step rebuilds too.** Each layer sits on top of the previous one.
 - **Order from least to most frequently changed:** base image, system packages, dependency list, dependency install, then code.
+
+**Why it matters:** you rebuild many times a day, and CI rebuilds on every commit. Ordering the Dockerfile well turns minutes into seconds. "Why is my Docker build slow?" is one of the most common interview questions, and this is almost always the answer.
+
+## 3. Cache mounts
+
+![Build 1 downloads all 8 packages from PyPI and saves them in the BuildKit cache mount. Build 2 reuses them and downloads only the new package. The cache never enters the image.](img/day03-cache-mount.svg)
+
 - **Cache mounts** (`RUN --mount=type=cache,target=...`) keep a tool's cache (e.g. pip downloads) between builds without saving it into the image.
+
+**Why it matters:** the instruction-order fix doesn't help when dependencies change. The cache mount does, without making the image bigger.
 
 ## The fix
 
@@ -41,11 +70,15 @@ ENTRYPOINT ["python", "ingest.py"]
 
 ## Base images
 
+![Approximate base image sizes: python:3.12 about 1 GB, python:3.12-slim 205 MB, alpine about 60 MB, distroless about 50 MB. My weather-ingest was 242 MB on slim and 122 MB on alpine.](img/day03-base-images.svg)
+
+**Why it matters:** smaller images download faster, start faster, and contain fewer packages that can have vulnerabilities (Day 10). But the smallest isn't always best: Alpine can break Python packages.
+
 | Base | Size | Trade-off |
 | --- | --- | --- |
 | `python:3.12` | ~1 GB | Compilers and tools included; heavy |
-| `python:3.12-slim` | ~150 MB | Debian, glibc. **The usual default.** |
-| `python:3.12-alpine` | ~50 MB | musl libc. Many packages lack musl wheels, so pip compiles from source: slow, needs compilers, can fail. |
+| `python:3.12-slim` | ~205 MB | Debian, glibc. **The usual default.** |
+| `python:3.12-alpine` | ~60 MB | musl libc. Many packages lack musl wheels, so pip compiles from source: slow, needs compilers, can fail. |
 | Distroless | ~50 MB | No shell, no package manager. Secure, hard to debug. |
 
 My experiment with `weather-ingest`:

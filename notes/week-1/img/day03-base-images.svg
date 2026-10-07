@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="320" viewBox="0 0 760 320" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif">
+  <rect width="760" height="320" rx="12" fill="#ffffff"/>
+  <text x="380" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#212121">Base image size (on disk, approximate)</text>
+
+  <text x="200" y="68" text-anchor="end" font-size="12" font-family="Menlo,Consolas,monospace" fill="#212121">python:3.12</text>
+  <rect x="210" y="54" width="440" height="22" rx="3" fill="#ffccbc"/>
+  <text x="658" y="70" font-size="12" font-weight="600" fill="#bf360c">~1 GB</text>
+  <text x="210" y="92" font-size="11" fill="#757575">compilers and tools included · heavy</text>
+
+  <text x="200" y="122" text-anchor="end" font-size="12" font-family="Menlo,Consolas,monospace" font-weight="700" fill="#1565c0">python:3.12-slim</text>
+  <rect x="210" y="108" width="90" height="22" rx="3" fill="#90caf9"/>
+  <text x="308" y="124" font-size="12" font-weight="700" fill="#1565c0">205 MB · the usual default ✓</text>
+  <text x="210" y="146" font-size="11" fill="#757575">Debian · glibc · what we use</text>
+
+  <text x="200" y="176" text-anchor="end" font-size="12" font-family="Menlo,Consolas,monospace" fill="#212121">python:3.12-alpine</text>
+  <rect x="210" y="162" width="30" height="22" rx="3" fill="#c5e1a5"/>
+  <text x="248" y="178" font-size="12" font-weight="600" fill="#33691e">~60 MB</text>
+  <text x="210" y="200" font-size="11" fill="#757575">musl libc · many packages must compile from source</text>
+
+  <text x="200" y="230" text-anchor="end" font-size="12" font-family="Menlo,Consolas,monospace" fill="#212121">distroless</text>
+  <rect x="210" y="216" width="25" height="22" rx="3" fill="#e1bee7"/>
+  <text x="243" y="232" font-size="12" font-weight="600" fill="#6a1b9a">~50 MB</text>
+  <text x="210" y="254" font-size="11" fill="#757575">no shell, no package manager · secure, hard to debug</text>
+
+  <rect x="20" y="270" width="720" height="36" rx="6" fill="#e3f2fd" stroke="#1565c0"/>
+  <text x="380" y="293" text-anchor="middle" font-size="12" fill="#0d47a1"><tspan font-weight="700">My experiment:</tspan> weather-ingest on slim = 242 MB · on alpine = 122 MB (worked, because my two packages ship musl wheels)</text>
+</svg>

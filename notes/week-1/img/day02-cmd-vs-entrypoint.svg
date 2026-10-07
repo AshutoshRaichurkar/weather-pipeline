@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="305" viewBox="0 0 760 305" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif">
+  <defs>
+    <marker id="k" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#757575"/></marker>
+  </defs>
+  <rect width="760" height="305" rx="12" fill="#ffffff"/>
+  <text x="380" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#212121">Same command, two Dockerfiles</text>
+
+  <rect x="170" y="42" width="420" height="36" rx="6" fill="#263238"/>
+  <text x="380" y="65" text-anchor="middle" font-size="13" font-family="Menlo,Consolas,monospace" fill="#ffffff">docker run weather-ingest <tspan fill="#ffcc80" font-weight="700">--city boston</tspan></text>
+  <line x1="300" y1="78" x2="200" y2="103" stroke="#757575" stroke-width="1.5" marker-end="url(#k)"/>
+  <line x1="460" y1="78" x2="560" y2="103" stroke="#757575" stroke-width="1.5" marker-end="url(#k)"/>
+
+  <!-- CMD -->
+  <rect x="20" y="106" width="350" height="185" rx="10" fill="#fafafa" stroke="#bdbdbd"/>
+  <text x="195" y="131" text-anchor="middle" font-size="12" font-family="Menlo,Consolas,monospace" font-weight="700" fill="#424242">CMD ["python", "ingest.py"]</text>
+  <text x="195" y="157" text-anchor="middle" font-size="13" font-weight="600" fill="#e65100">your words REPLACE the command</text>
+  <text x="195" y="186" text-anchor="middle" font-size="13" font-family="Menlo,Consolas,monospace" fill="#9e9e9e">python ingest.py</text>
+  <line x1="128" y1="181" x2="262" y2="181" stroke="#9e9e9e" stroke-width="1.5"/>
+  <rect x="45" y="200" width="300" height="36" rx="6" fill="#ffebee" stroke="#c62828"/>
+  <text x="195" y="223" text-anchor="middle" font-size="13" font-family="Menlo,Consolas,monospace" fill="#c62828">runs: <tspan font-weight="700">--city boston</tspan></text>
+  <text x="195" y="262" text-anchor="middle" font-size="11" fill="#c62828">✗ exec: "--city": executable file not found</text>
+  <text x="195" y="280" text-anchor="middle" font-size="11" fill="#757575">Use for general-purpose images (python, ubuntu)</text>
+
+  <!-- ENTRYPOINT -->
+  <rect x="390" y="106" width="350" height="185" rx="10" fill="#e8f5e9" stroke="#43a047"/>
+  <text x="565" y="131" text-anchor="middle" font-size="12" font-family="Menlo,Consolas,monospace" font-weight="700" fill="#1b5e20">ENTRYPOINT ["python", "ingest.py"]</text>
+  <text x="565" y="157" text-anchor="middle" font-size="13" font-weight="600" fill="#2e7d32">your words are ADDED as arguments</text>
+  <text x="565" y="186" text-anchor="middle" font-size="13" font-family="Menlo,Consolas,monospace" fill="#1b5e20">python ingest.py <tspan fill="#e65100" font-weight="700">+ --city boston</tspan></text>
+  <rect x="415" y="200" width="300" height="36" rx="6" fill="#ffffff" stroke="#2e7d32"/>
+  <text x="565" y="223" text-anchor="middle" font-size="12" font-family="Menlo,Consolas,monospace" fill="#1b5e20">runs: <tspan font-weight="700">python ingest.py --city boston</tspan></text>
+  <text x="565" y="262" text-anchor="middle" font-size="11" fill="#2e7d32">✓ the script runs (ours ignores the args)</text>
+  <text x="565" y="280" text-anchor="middle" font-size="11" fill="#757575">Use for single-purpose images (ingest, dbt)</text>
+</svg>

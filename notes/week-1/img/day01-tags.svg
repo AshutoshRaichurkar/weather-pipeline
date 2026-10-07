@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="305" viewBox="0 0 760 305" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif">
+  <defs>
+    <marker id="o" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef6c00"/></marker>
+    <marker id="k" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#9e9e9e"/></marker>
+    <marker id="b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1565c0"/></marker>
+  </defs>
+  <rect width="760" height="305" rx="12" fill="#ffffff"/>
+  <text x="380" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#212121">What postgres:16 really means</text>
+
+  <text x="380" y="68" text-anchor="middle" font-size="22" font-family="Menlo,Consolas,monospace" font-weight="700"><tspan fill="#9e9e9e">docker.io/library/</tspan><tspan fill="#1565c0">postgres</tspan><tspan fill="#9e9e9e">:</tspan><tspan fill="#e65100">16</tspan></text>
+  <text x="245" y="96" text-anchor="middle" font-size="12" font-weight="600" fill="#757575">registry</text>
+  <text x="245" y="111" text-anchor="middle" font-size="11" fill="#9e9e9e">Docker Hub (default)</text>
+  <text x="366" y="96" text-anchor="middle" font-size="12" font-weight="600" fill="#757575">namespace</text>
+  <text x="366" y="111" text-anchor="middle" font-size="11" fill="#9e9e9e">official images</text>
+  <text x="480" y="96" text-anchor="middle" font-size="12" font-weight="600" fill="#1565c0">repository</text>
+  <text x="553" y="96" text-anchor="middle" font-size="12" font-weight="600" fill="#e65100">tag</text>
+  <text x="380" y="138" text-anchor="middle" font-size="12" fill="#616161">You typed postgres:16; Docker filled in the grey parts.</text>
+
+
+  <rect x="30" y="172" width="170" height="36" rx="6" fill="#fff3e0" stroke="#ef6c00"/>
+  <text x="115" y="195" text-anchor="middle" font-size="13" font-family="Menlo,Consolas,monospace" font-weight="700" fill="#e65100">postgres:16</text>
+  <rect x="30" y="240" width="170" height="36" rx="6" fill="#e3f2fd" stroke="#1565c0"/>
+  <text x="115" y="263" text-anchor="middle" font-size="12" font-family="Menlo,Consolas,monospace" font-weight="700" fill="#0d47a1">postgres@sha256:aa…</text>
+
+  <rect x="330" y="205" width="150" height="44" rx="6" fill="#eceff1" stroke="#90a4ae"/>
+  <text x="405" y="224" text-anchor="middle" font-size="13" font-weight="600" fill="#37474f">image 16.4</text>
+  <text x="405" y="241" text-anchor="middle" font-size="10" font-family="Menlo,Consolas,monospace" fill="#546e7a">sha256:aa…</text>
+  <rect x="560" y="205" width="150" height="44" rx="6" fill="#e8f5e9" stroke="#2e7d32"/>
+  <text x="635" y="224" text-anchor="middle" font-size="13" font-weight="600" fill="#1b5e20">image 16.5 (newer)</text>
+  <text x="635" y="241" text-anchor="middle" font-size="10" font-family="Menlo,Consolas,monospace" fill="#2e7d32">sha256:bb…</text>
+
+  <path d="M200,186 C250,190 300,205 327,215" fill="none" stroke="#9e9e9e" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#k)"/>
+  <text x="262" y="182" text-anchor="middle" font-size="11" fill="#9e9e9e">last month</text>
+  <path d="M200,180 C330,150 520,150 620,202" fill="none" stroke="#ef6c00" stroke-width="2" marker-end="url(#o)"/>
+  <text x="420" y="149" text-anchor="middle" font-size="11" font-weight="600" fill="#e65100">today: the tag moved</text>
+  <path d="M200,258 C260,258 300,240 327,234" fill="none" stroke="#1565c0" stroke-width="2" marker-end="url(#b)"/>
+  <text x="262" y="282" text-anchor="middle" font-size="11" font-weight="600" fill="#1565c0">always this exact image</text>
+
+  <text x="545" y="285" text-anchor="middle" font-size="12" fill="#616161">A tag is a label that can move. A digest never changes.</text>
+</svg>

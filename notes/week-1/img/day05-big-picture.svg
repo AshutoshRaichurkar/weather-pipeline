@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="530" viewBox="0 0 760 530" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif">
+  <defs>
+    <marker id="o" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef6c00"/></marker>
+    <marker id="g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2e7d32"/></marker>
+  </defs>
+  <rect width="760" height="530" rx="12" fill="#ffffff"/>
+
+  <!-- BEFORE -->
+  <text x="20" y="30" font-size="16" font-weight="700" fill="#c62828">BEFORE (Days 2–4)</text>
+  <text x="185" y="30" font-size="14" fill="#424242">every connection leaves Docker and comes back in through your Mac</text>
+  <rect x="20" y="45" width="720" height="255" rx="10" fill="#f5f5f5" stroke="#9e9e9e"/>
+  <text x="36" y="66" font-size="13" font-weight="600" fill="#616161">Your Mac</text>
+  <rect x="40" y="80" width="680" height="125" rx="10" fill="#eef6ff" stroke="#64b5f6" stroke-dasharray="6 4"/>
+  <text x="56" y="100" font-size="13" font-weight="600" fill="#1565c0">Docker · default bridge network</text>
+
+  <rect x="70" y="112" width="140" height="36" rx="6" fill="#e3f2fd" stroke="#1565c0"/>
+  <text x="140" y="135" text-anchor="middle" font-size="14" fill="#0d47a1">ingest</text>
+  <rect x="70" y="157" width="140" height="36" rx="6" fill="#e3f2fd" stroke="#1565c0"/>
+  <text x="140" y="180" text-anchor="middle" font-size="14" fill="#0d47a1">dbt</text>
+  <rect x="540" y="120" width="160" height="62" rx="6" fill="#e3f2fd" stroke="#1565c0"/>
+  <text x="620" y="146" text-anchor="middle" font-size="15" font-weight="700" fill="#0d47a1">pg</text>
+  <text x="620" y="168" text-anchor="middle" font-size="12" fill="#0d47a1">Postgres :5432</text>
+
+  <rect x="300" y="235" width="180" height="52" rx="6" fill="#fff3e0" stroke="#ef6c00"/>
+  <text x="390" y="257" text-anchor="middle" font-size="14" font-weight="700" fill="#e65100">Mac port 5432</text>
+  <text x="390" y="276" text-anchor="middle" font-size="12" fill="#e65100">published with -p 5432:5432</text>
+
+  <path d="M210,130 C270,130 300,190 335,233" fill="none" stroke="#ef6c00" stroke-width="2" marker-end="url(#o)"/>
+  <path d="M210,175 C250,175 290,205 320,233" fill="none" stroke="#ef6c00" stroke-width="2" marker-end="url(#o)"/>
+  <text x="150" y="226" text-anchor="middle" font-size="12" fill="#e65100">host.docker.internal:5432</text>
+  <path d="M480,260 C560,260 610,230 620,184" fill="none" stroke="#ef6c00" stroke-width="2" marker-end="url(#o)"/>
+  <text x="640" y="284" text-anchor="middle" font-size="12" fill="#e65100">-p forwards it back in</text>
+  <text x="470" y="222" text-anchor="middle" font-size="12" fill="#757575">3 hops: container → Mac → container</text>
+
+  <!-- AFTER -->
+  <text x="20" y="335" font-size="16" font-weight="700" fill="#2e7d32">AFTER (Day 5)</text>
+  <text x="140" y="335" font-size="14" fill="#424242">containers on one network talk directly, by name</text>
+  <rect x="20" y="350" width="720" height="165" rx="10" fill="#f5f5f5" stroke="#9e9e9e"/>
+  <text x="36" y="371" font-size="13" font-weight="600" fill="#616161">Your Mac</text>
+  <rect x="40" y="385" width="520" height="118" rx="10" fill="#e8f5e9" stroke="#43a047" stroke-dasharray="6 4"/>
+  <text x="56" y="405" font-size="13" font-weight="600" fill="#2e7d32">weather-net · user-defined network with built-in DNS</text>
+
+  <rect x="70" y="417" width="140" height="36" rx="6" fill="#e3f2fd" stroke="#1565c0"/>
+  <text x="140" y="440" text-anchor="middle" font-size="14" fill="#0d47a1">ingest</text>
+  <rect x="70" y="460" width="140" height="36" rx="6" fill="#e3f2fd" stroke="#1565c0"/>
+  <text x="140" y="483" text-anchor="middle" font-size="14" fill="#0d47a1">dbt</text>
+  <rect x="380" y="425" width="150" height="62" rx="6" fill="#e3f2fd" stroke="#1565c0"/>
+  <text x="455" y="451" text-anchor="middle" font-size="15" font-weight="700" fill="#0d47a1">postgres</text>
+  <text x="455" y="473" text-anchor="middle" font-size="12" fill="#0d47a1">Postgres :5432 · no -p</text>
+
+  <path d="M210,435 C290,435 320,445 378,450" fill="none" stroke="#2e7d32" stroke-width="2" marker-end="url(#g)"/>
+  <path d="M210,478 C290,478 320,465 378,462" fill="none" stroke="#2e7d32" stroke-width="2" marker-end="url(#g)"/>
+  <text x="295" y="427" text-anchor="middle" font-size="12" font-weight="600" fill="#2e7d32">postgres:5432</text>
+  <text x="300" y="498" text-anchor="middle" font-size="12" fill="#757575">1 hop</text>
+
+  <rect x="590" y="420" width="130" height="62" rx="6" fill="#fafafa" stroke="#bdbdbd" stroke-dasharray="4 3"/>
+  <text x="655" y="446" text-anchor="middle" font-size="13" font-weight="600" fill="#9e9e9e">Mac port 5432</text>
+  <text x="655" y="466" text-anchor="middle" font-size="12" fill="#9e9e9e">nothing listening</text>
+</svg>

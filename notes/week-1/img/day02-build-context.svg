@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="285" viewBox="0 0 760 285" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif">
+  <defs>
+    <marker id="k" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#757575"/></marker>
+  </defs>
+  <rect width="760" height="285" rx="12" fill="#ffffff"/>
+  <text x="380" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#212121">The build context: what docker build ingest/ sends</text>
+
+  <rect x="20" y="45" width="250" height="175" rx="8" fill="#fafafa" stroke="#9e9e9e"/>
+  <text x="36" y="68" font-size="13" font-weight="700" font-family="Menlo,Consolas,monospace" fill="#424242">ingest/</text>
+  <text x="44" y="94" font-size="12" font-family="Menlo,Consolas,monospace" fill="#2e7d32">✓ Dockerfile</text>
+  <text x="44" y="114" font-size="12" font-family="Menlo,Consolas,monospace" fill="#2e7d32">✓ .dockerignore</text>
+  <text x="44" y="134" font-size="12" font-family="Menlo,Consolas,monospace" fill="#2e7d32">✓ ingest.py</text>
+  <text x="44" y="154" font-size="12" font-family="Menlo,Consolas,monospace" fill="#2e7d32">✓ requirements.txt</text>
+  <text x="44" y="180" font-size="12" font-family="Menlo,Consolas,monospace" fill="#c62828">✗ .env  .git  venv/</text>
+  <text x="44" y="200" font-size="12" font-family="Menlo,Consolas,monospace" fill="#c62828">✗ __pycache__/</text>
+  <text x="200" y="190" font-size="10" fill="#c62828">(if present)</text>
+
+  <rect x="310" y="100" width="140" height="60" rx="8" fill="#fff8e1" stroke="#f9a825"/>
+  <text x="380" y="125" text-anchor="middle" font-size="12" font-family="Menlo,Consolas,monospace" font-weight="700" fill="#f57f17">.dockerignore</text>
+  <text x="380" y="145" text-anchor="middle" font-size="11" fill="#f57f17">filters out the ✗ files</text>
+
+  <rect x="490" y="45" width="250" height="175" rx="8" fill="#e3f2fd" stroke="#1565c0"/>
+  <text x="615" y="70" text-anchor="middle" font-size="14" font-weight="700" fill="#0d47a1">Docker build engine</text>
+  <text x="615" y="92" text-anchor="middle" font-size="11" fill="#0d47a1">receives only:</text>
+  <text x="520" y="118" font-size="12" font-family="Menlo,Consolas,monospace" fill="#0d47a1">Dockerfile</text>
+  <text x="520" y="138" font-size="12" font-family="Menlo,Consolas,monospace" fill="#0d47a1">.dockerignore</text>
+  <text x="520" y="158" font-size="12" font-family="Menlo,Consolas,monospace" fill="#0d47a1">ingest.py</text>
+  <text x="520" y="178" font-size="12" font-family="Menlo,Consolas,monospace" fill="#0d47a1">requirements.txt</text>
+  <text x="615" y="206" text-anchor="middle" font-size="11" font-weight="600" fill="#0d47a1">COPY can only see these</text>
+
+  <line x1="270" y1="130" x2="307" y2="130" stroke="#757575" stroke-width="2" marker-end="url(#k)"/>
+  <line x1="450" y1="130" x2="487" y2="130" stroke="#757575" stroke-width="2" marker-end="url(#k)"/>
+
+  <rect x="20" y="235" width="720" height="36" rx="6" fill="#f5f5f5" stroke="#bdbdbd" stroke-dasharray="4 3"/>
+  <text x="380" y="258" text-anchor="middle" font-size="12" fill="#616161">Files outside <tspan font-family="Menlo,Consolas,monospace">ingest/</tspan> (<tspan font-family="Menlo,Consolas,monospace">../venv</tspan>, <tspan font-family="Menlo,Consolas,monospace">../notes</tspan>, <tspan font-family="Menlo,Consolas,monospace">../dbt</tspan>) are never sent, so COPY can't reach them.</text>
+</svg>

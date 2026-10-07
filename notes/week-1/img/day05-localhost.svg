@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="255" viewBox="0 0 760 255" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif">
+  <defs>
+    <marker id="r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#c62828"/></marker>
+  </defs>
+  <rect width="760" height="255" rx="12" fill="#ffffff"/>
+  <text x="380" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#212121">localhost always means "this container"</text>
+
+  <rect x="20" y="45" width="300" height="180" rx="10" fill="#e3f2fd" stroke="#1565c0"/>
+  <text x="170" y="70" text-anchor="middle" font-size="15" font-weight="700" fill="#0d47a1">ingest container</text>
+  <rect x="45" y="88" width="250" height="115" rx="8" fill="#ffffff" stroke="#90caf9"/>
+  <text x="170" y="115" text-anchor="middle" font-size="14" fill="#212121">localhost = ingest itself</text>
+  <text x="170" y="146" text-anchor="middle" font-size="14" fill="#c62828">port 5432: nothing listening</text>
+  <text x="170" y="174" text-anchor="middle" font-size="12" fill="#c62828">→ Connection refused (Day 2 error)</text>
+
+  <rect x="440" y="45" width="300" height="180" rx="10" fill="#e3f2fd" stroke="#1565c0"/>
+  <text x="590" y="70" text-anchor="middle" font-size="15" font-weight="700" fill="#0d47a1">postgres container</text>
+  <rect x="465" y="88" width="250" height="115" rx="8" fill="#ffffff" stroke="#90caf9"/>
+  <text x="590" y="115" text-anchor="middle" font-size="14" fill="#212121">localhost = postgres itself</text>
+  <text x="590" y="146" text-anchor="middle" font-size="14" fill="#2e7d32">port 5432: Postgres ✓</text>
+  <text x="590" y="174" text-anchor="middle" font-size="12" fill="#616161">others reach it by name, on a network</text>
+
+  <line x1="380" y1="48" x2="380" y2="84" stroke="#757575" stroke-width="3" stroke-dasharray="5 5"/>
+  <line x1="380" y1="122" x2="380" y2="222" stroke="#757575" stroke-width="3" stroke-dasharray="5 5"/>
+  <line x1="322" y1="146" x2="366" y2="146" stroke="#c62828" stroke-width="2" marker-end="url(#r)"/>
+  <text x="380" y="98" text-anchor="middle" font-size="11" fill="#c62828">localhost</text>
+  <text x="380" y="112" text-anchor="middle" font-size="11" fill="#c62828">can't cross</text>
+  <text x="392" y="152" font-size="18" font-weight="700" fill="#c62828">✗</text>
+  <text x="380" y="245" text-anchor="middle" font-size="12" fill="#616161">Each container has its own network namespace, so each has its own private localhost.</text>
+</svg>

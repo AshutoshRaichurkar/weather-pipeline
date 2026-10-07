@@ -1,8 +1,23 @@
 # Day 4: Volumes and bind mounts
 
-## Key ideas
+## Objectives
+
+By the end of the day I can:
+
+1. Explain the three mount types (named volume, bind mount, tmpfs) and when to use each.
+2. Make Postgres data survive deleting and recreating the container.
+3. Run an official image (dbt) with my own project supplied through a bind mount.
+4. Explain where a named volume lives on a Mac, and how to look inside it.
+5. Back up a volume.
+6. Explain when a bind mount belongs in production.
+
+## 1. Three mount types
+
+![A container with three mounts: a named volume for /var/lib/postgresql/data, a bind mount from the Mac's dbt folder to /usr/app/dbt, and tmpfs in memory for /tmp. The writable layer is deleted with the container.](img/day04-mount-types.svg)
 
 - **The problem (Day 1):** container data lives in the writable layer, and `docker rm` deletes it. Mounts store data **outside** the container.
+
+**Why it matters:** every real stateful service (databases, uploads, caches) needs this. Choosing the wrong type leads to lost data, permission errors, or code that isn't what you tested.
 
 | Type | Syntax | Data lives | Managed by | Typical use |
 | --- | --- | --- | --- | --- |
@@ -11,6 +26,21 @@
 | **tmpfs** | `--tmpfs /tmp` | Memory only, gone on stop | Docker | Scratch space, sensitive temp files (Day 10) |
 
 - **Docker tells them apart by the first part of `-v`:** a name (`pgdata`) is a volume; a path starting with `/` is a bind mount.
+
+## 2. Named volumes outlive containers
+
+![The first pg container loads 768 rows into the pgdata volume. docker rm -f deletes the container, a brand-new pg container mounts the same volume, and count(*) still returns 768.](img/day04-volume-survives.svg)
+
+**Why it matters:** containers become disposable. You can upgrade, rename, or recreate Postgres freely (as Day 5 does), and the data stays.
+
+## 3. Where a volume lives on a Mac
+
+![Named volumes live inside Docker Desktop's Linux VM at /var/lib/docker/volumes/pgdata/_data, stored on the Mac as one Docker.raw file. A bind mount is a real Mac folder you can open in Finder.](img/day04-where-volume-lives.svg)
+
+**Why it matters:** explains why `ls /var/lib/docker` fails on a Mac, and why you reach volumes only through Docker. On a Linux server, the path is real.
+
+## Details
+
 - **Named volume:** the container is disposable, the data isn't. Recreate the container with the same `-v pgdata:...` and the data is back.
 - **Bind mount:** two-way and live. The container sees host edits instantly; files the container writes appear on the host (dbt's `target/` and `logs/`).
 - **`:ro`** at the end of a mount makes it read-only inside the container. Standard for config files.
@@ -32,6 +62,10 @@
 - `docker run` = `docker create` + `docker start`. Every run makes a new container; `--rm` deletes it when it exits. The dbt container only exists for the seconds `dbt run` takes.
 
 ## dbt runs in three places
+
+![dbt run in three places: the dbt folder on the Mac is bind-mounted into the dbt container, which compiles the models and sends SQL to the pg container, which creates the views and tables.](img/day04-dbt-three-places.svg)
+
+**Why it matters:** a generic official image plus your project through a bind mount means no Dockerfile to maintain and instant edits. It's the standard development pattern for tools like dbt.
 
 | What | Where |
 | --- | --- |
