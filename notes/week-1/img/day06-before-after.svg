@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="330" viewBox="0 0 760 330" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif">
+  <defs>
+    <marker id="g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2e7d32"/></marker>
+  </defs>
+  <rect width="760" height="330" rx="12" fill="#ffffff"/>
+  <text x="380" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#212121">From a pile of commands to one file</text>
+
+  <!-- before -->
+  <rect x="20" y="45" width="335" height="270" rx="10" fill="#fafafa" stroke="#bdbdbd"/>
+  <text x="187" y="68" text-anchor="middle" font-size="14" font-weight="700" fill="#c62828">Day 5: by hand</text>
+  <rect x="32" y="80" width="311" height="180" rx="6" fill="#263238"/>
+  <g font-family="Menlo,Consolas,monospace" font-size="10" fill="#eceff1">
+    <text x="42" y="99">$ docker network create weather-net</text>
+    <text x="42" y="116">$ docker volume create pgdata</text>
+    <text x="42" y="137">$ docker run -d --name postgres \</text>
+    <text x="66" y="152">--network weather-net -v pgdata:... \</text>
+    <text x="66" y="167">-e POSTGRES_PASSWORD=postgres postgres:16</text>
+    <text x="42" y="188">$ docker run --rm --network weather-net \</text>
+    <text x="66" y="203">-e DB_HOST=postgres weather-ingest</text>
+    <text x="42" y="224">$ docker run --rm --platform linux/amd64 \</text>
+    <text x="66" y="239">--network weather-net -v ... dbt-postgres run</text>
+  </g>
+  <text x="187" y="283" text-anchor="middle" font-size="12" fill="#c62828">order matters · easy to miss a flag</text>
+  <text x="187" y="301" text-anchor="middle" font-size="12" fill="#c62828">password typed in plain text · lives in your head</text>
+
+  <line x1="360" y1="170" x2="398" y2="170" stroke="#2e7d32" stroke-width="3" marker-end="url(#g)"/>
+
+  <!-- after -->
+  <rect x="405" y="45" width="335" height="270" rx="10" fill="#e8f5e9" stroke="#43a047"/>
+  <text x="572" y="68" text-anchor="middle" font-size="14" font-weight="700" fill="#2e7d32">Day 6: compose.yaml</text>
+  <rect x="420" y="80" width="305" height="125" rx="6" fill="#ffffff" stroke="#43a047"/>
+  <g font-family="Menlo,Consolas,monospace" font-size="11">
+    <text x="432" y="100" fill="#6a1b9a">services:</text>
+    <text x="432" y="118" fill="#0d47a1" dx="18">postgres:</text><text x="560" y="118" fill="#616161">image: postgres:16</text>
+    <text x="432" y="136" fill="#0d47a1" dx="18">ingest:</text><text x="560" y="136" fill="#616161">build: ./ingest</text>
+    <text x="432" y="154" fill="#0d47a1" dx="18">dbt:</text><text x="560" y="154" fill="#616161">image: dbt-postgres</text>
+    <text x="432" y="176" fill="#6a1b9a">volumes:</text>
+    <text x="432" y="194" fill="#1b5e20" dx="18">pgdata:</text>
+  </g>
+  <rect x="420" y="215" width="305" height="45" rx="6" fill="#263238"/>
+  <text x="432" y="234" font-size="11" font-family="Menlo,Consolas,monospace" fill="#a5d6a7">$ docker compose up -d</text>
+  <text x="432" y="251" font-size="11" font-family="Menlo,Consolas,monospace" fill="#a5d6a7">$ docker compose run --rm dbt run</text>
+  <text x="572" y="283" text-anchor="middle" font-size="12" fill="#2e7d32">in git · same for everyone · network automatic</text>
+  <text x="572" y="301" text-anchor="middle" font-size="12" fill="#2e7d32">password comes from .env, not the file</text>
+</svg>
