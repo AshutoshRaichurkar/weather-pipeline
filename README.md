@@ -1,8 +1,69 @@
-# Docker in 2 Weeks: Study Plan & Project
+# Weather Pipeline
+
+A small containerized data platform, built step by step while learning Docker. It pulls hourly weather for four cities from the free [Open-Meteo API](https://open-meteo.com/), loads it into Postgres, and models it with dbt. From Day 8 it will also serve a next-day temperature prediction through a FastAPI service.
+
+## Status
+
+**Days 1–6 of 14 complete:** ingest service, Postgres on a named volume, dbt models, and a Docker Compose stack with healthchecks and ordered jobs. Next: Day 7 review, then the ML API in Week 2.
+
+## How it works today
+
+```text
+Open-Meteo API → ingest → postgres (raw.hourly_weather) → dbt → analytics_staging / analytics_marts
+```
+
+| Service | What it does | Runs as |
+| --- | --- | --- |
+| `postgres` | Warehouse, data kept in a named volume, healthchecked with `pg_isready` | Long-running service |
+| `ingest` | Python job that loads 7 days of hourly temperatures | One-off job, starts once Postgres is healthy |
+| `dbt` | Builds `stg_hourly_weather` and `daily_weather_summary` | One-off job, starts once ingest succeeds |
+
+## Quick start
+
+Requires Docker Desktop (or Docker Engine with Compose v2).
+
+```bash
+git clone <this repo>
+cd weather-pipeline
+cp .env.example .env          # then set your own POSTGRES_PASSWORD
+docker compose up -d          # postgres → ingest → dbt, in order
+docker compose wait dbt       # block until dbt finishes ("exited with status code 0")
+docker compose exec postgres psql -U postgres \
+  -c "SELECT * FROM analytics_marts.daily_weather_summary ORDER BY city, observed_date LIMIT 10"
+```
+
+```bash
+docker compose run --rm --no-deps dbt run   # re-run dbt only
+docker compose down                         # stop and remove containers (data kept)
+docker compose down -v                      # also delete the database volume
+```
+
+`docker compose wait dbt` only waits for a dbt container that's still running; if dbt has already finished, it says `No containers`, and you can query straight away.
+
+On Apple Silicon, the official dbt image runs under emulation (`platform: linux/amd64`), so dbt takes 15–20 seconds.
+
+## Repo layout
+
+```text
+compose.yml        the whole stack
+.env.example       variables to copy into .env (git-ignored)
+ingest/            ingest service: Dockerfile, ingest.py, requirements.txt
+dbt/               dbt project: staging and marts models
+notes/             daily revision notes with diagrams
+```
+
+## Learning notes
+
+- [Week 1: Core Docker](notes/week-1/README.md)
+- [Week 2: Production habits, ML serving, and CI](notes/week-2/README.md)
+
+---
+
+## Study plan: Docker in 2 Weeks
 
 *As of October 6, 2026*
 
-## How the plan works
+### How the plan works
 
 You build one project over 14 days, adding a Docker concept each day, so every topic lands in working code. Budget about 1.5–2 hours on weekdays and 3–4 hours on weekend days; days 7 and 14 are catch-up and review.
 
@@ -19,7 +80,7 @@ Each day has three parts:
 - [ ] Install `dive` (inspects image layers) and `trivy` (scans for vulnerabilities)
 - [ ] Have Python 3.11+ and VS Code with the Docker extension ready
 
-## The project: Weather Pipeline
+### The project: Weather Pipeline
 
 You'll build a small containerized data platform that ingests weather data, models it with dbt, and serves a prediction API. It reuses skills you already have (Python, dbt, SQL) so your attention goes to Docker, and it ends as a portfolio piece that bridges data engineering and ML.
 
@@ -51,11 +112,11 @@ flowchart LR
 
 Ingest loads Postgres, dbt transforms inside it, and train reads its marts to produce the model the API serves.
 
-## Week 1: Core Docker, ending with a working Compose stack
+### Week 1: Core Docker, ending with a working Compose stack
 
 By the end of Week 1, Postgres, ingestion, and dbt run together with one command.
 
-### Day 1: Containers and the core CLI
+#### Day 1: Containers and the core CLI
 
 **Learn:** containers vs. VMs, namespaces and cgroups, images vs. containers, registries, tags vs. digests. Drill `run`, `ps`, `logs`, `exec`, `inspect`, `stop`, `rm`, `images`.
 
@@ -68,7 +129,7 @@ By the end of Week 1, Postgres, ingestion, and dbt run together with one command
 
 **Check:** Why did the data vanish? What does `docker ps -a` show that `docker ps` doesn't?
 
-### Day 2: Your first Dockerfile
+#### Day 2: Your first Dockerfile
 
 **Learn:** `FROM`, `WORKDIR`, `COPY`, `RUN`, `ENV`, `ARG`, `CMD` vs. `ENTRYPOINT`, shell form vs. exec form, `.dockerignore`, the build context.
 
@@ -81,7 +142,7 @@ By the end of Week 1, Postgres, ingestion, and dbt run together with one command
 
 **Check:** If `ENTRYPOINT` is `["python", "ingest.py"]`, what does `docker run ingest --city boston` execute?
 
-### Day 3: Layers, caching, and image size
+#### Day 3: Layers, caching, and image size
 
 **Learn:** how each instruction creates a layer, cache invalidation order, slim vs. Alpine vs. distroless, `docker history`, BuildKit cache mounts.
 
@@ -94,7 +155,7 @@ By the end of Week 1, Postgres, ingestion, and dbt run together with one command
 
 **Check:** Why does copying all code before `pip install` make every rebuild slow?
 
-### Day 4: Volumes and bind mounts
+#### Day 4: Volumes and bind mounts
 
 **Learn:** the container writable layer, named volumes vs. bind mounts vs. tmpfs, UID and permission issues, backing up a volume.
 
@@ -106,7 +167,7 @@ By the end of Week 1, Postgres, ingestion, and dbt run together with one command
 
 **Check:** When would you use a bind mount instead of a named volume in production?
 
-### Day 5: Networking the hard way
+#### Day 5: Networking the hard way
 
 **Learn:** bridge, host, and none drivers, user-defined networks, DNS by container name, port publishing, why `localhost` inside a container is the container itself.
 
@@ -118,7 +179,7 @@ By the end of Week 1, Postgres, ingestion, and dbt run together with one command
 
 **Check:** What's the difference between `EXPOSE` and `-p`?
 
-### Day 6: Docker Compose
+#### Day 6: Docker Compose
 
 **Learn:** services, networks, volumes, `.env` and variable substitution, healthchecks, `depends_on` with `condition: service_healthy`, `docker compose run` for one-off jobs.
 
@@ -131,18 +192,18 @@ By the end of Week 1, Postgres, ingestion, and dbt run together with one command
 
 **Check:** Why isn't plain `depends_on` enough to guarantee Postgres is ready?
 
-### Day 7: Catch-up and review
+#### Day 7: Catch-up and review
 
 - [ ] Finish anything left from Days 1–6
 - [ ] Write a README with setup steps and an architecture sketch
 - [ ] Delete everything with `docker compose down -v` and `docker system prune`, then rebuild from scratch
 - [ ] Answer all Week 1 self-check questions without notes
 
-## Week 2: Production habits, ML serving, and CI
+### Week 2: Production habits, ML serving, and CI
 
 By the end of Week 2, the stack serves predictions, runs hardened, and ships images through CI.
 
-### Day 8: Multi-stage builds and the ML API
+#### Day 8: Multi-stage builds and the ML API
 
 **Learn:** multi-stage builds, builder vs. runtime stages, copying a virtualenv between stages, keeping model weights out of the image vs. baking them in.
 
@@ -155,7 +216,7 @@ By the end of Week 2, the stack serves predictions, runs hardened, and ships ima
 
 **Check:** Why is it usually better to mount a model than bake it into the image? When would you bake it in?
 
-### Day 9: Configuration and secrets
+#### Day 9: Configuration and secrets
 
 **Learn:** twelve-factor config, how `ARG` and `ENV` values leak into `docker history`, Compose secrets, BuildKit secret mounts.
 
@@ -167,7 +228,7 @@ By the end of Week 2, the stack serves predictions, runs hardened, and ships ima
 
 **Check:** Where would these secrets come from on ECS?
 
-### Day 10: Security hardening
+#### Day 10: Security hardening
 
 **Learn:** running as non-root, read-only root filesystems, dropping Linux capabilities, pinning base images by digest, image scanning, why mounting `docker.sock` equals root on the host.
 
@@ -179,7 +240,7 @@ By the end of Week 2, the stack serves predictions, runs hardened, and ships ima
 
 **Check:** What breaks when a container runs read-only, and how do you fix it?
 
-### Day 11: Debugging and operations
+#### Day 11: Debugging and operations
 
 **Learn:** `logs`, `stats`, `top`, `events`, `inspect`; exit codes 137 (killed, often out of memory), 143 (SIGTERM), and 1; memory and CPU limits; restart policies; graceful shutdown and `init: true`; log rotation.
 
@@ -192,7 +253,7 @@ By the end of Week 2, the stack serves predictions, runs hardened, and ships ima
 
 **Check:** A container keeps exiting with code 137. Walk through how you'd diagnose it.
 
-### Day 12: Developer workflow
+#### Day 12: Developer workflow
 
 **Learn:** override files, Compose profiles, `docker compose watch`, dev containers.
 
@@ -204,7 +265,7 @@ By the end of Week 2, the stack serves predictions, runs hardened, and ships ima
 
 **Check:** How do you run the stack without the dev overrides?
 
-### Day 13: CI/CD and registries
+#### Day 13: CI/CD and registries
 
 **Learn:** image tagging strategy (git SHA and semver), GitHub Container Registry, `docker buildx`, multi-platform builds, the CI build cache, and how Compose services map to ECS task definitions.
 
@@ -217,14 +278,14 @@ By the end of Week 2, the stack serves predictions, runs hardened, and ships ima
 
 **Check:** Why is deploying `:latest` risky?
 
-### Day 14: Capstone review
+#### Day 14: Capstone review
 
 - [ ] Change `compose.yaml` to pull your images from the registry instead of building them, then run from a fresh clone on a clean Docker install
 - [ ] Finish the README: architecture, setup, design decisions, and what you'd change for production
 - [ ] Answer every self-check question from both weeks without notes
 - [ ] Pin the repo on GitHub and add it to your resume
 
-## Done criteria and stretch goals
+### Done criteria and stretch goals
 
 You've mastered the core of Docker when you can do all of these without looking anything up:
 

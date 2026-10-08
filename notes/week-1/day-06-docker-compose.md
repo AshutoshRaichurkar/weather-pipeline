@@ -221,6 +221,8 @@ docker compose exec postgres psql -U postgres -c "SELECT count(*) FROM analytics
 
 Or check `docker compose ps -a` for `Exited (0)`, or `docker compose logs -f dbt` until `Done. PASS=2`.
 
+`docker compose wait` only waits for containers that haven't stopped yet. Right after `up -d` it prints `container ... exited with status code 0`; if dbt already finished earlier, it says `No containers for project` (nothing to wait for).
+
 **2. The experiment: plain `depends_on` after `docker compose down -v`.**
 
 ```
