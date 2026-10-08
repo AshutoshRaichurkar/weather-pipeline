@@ -25,6 +25,8 @@ By the end of the day I can:
 
 **What it is:** each container has its own network namespace (Day 1), so it has its own private `localhost`.
 
+> **Real-world analogy:** In an apartment building, **"my home" means a different place for every tenant**. If the ingest tenant says "meet me at my home, door 5432," they mean their own apartment, not the Postgres tenant's.
+
 **Why it matters:** this is the root cause of the Day 2 error (`connection to 127.0.0.1 ... refused`). To reach another container you need its name on a shared network, never `localhost`.
 
 ## 2. User-defined networks and DNS
@@ -32,6 +34,8 @@ By the end of the day I can:
 ![Default bridge: looking up "pg" fails with Name or service not known. weather-net: ingest asks Docker DNS for "postgres", gets 172.18.0.2, and connects.](img/day05-bridge-vs-network.svg)
 
 **What it is:** a private virtual network that I create (`docker network create weather-net`) and attach containers to. Docker runs a built-in DNS server on it.
+
+> **Real-world analogy:** The default bridge is a **big public car park with no directory**: you can only find a car by its exact bay number, and it changes every time the car re-parks. A user-defined network is **an office building with a reception desk**: ask "where's postgres?" and reception tells you the current room.
 
 **Why we use it:** the default `bridge` network has no name lookup, so containers can only find each other by IP. On my own network, they find each other by name.
 
@@ -49,6 +53,8 @@ By the end of the day I can:
 
 **What it is:** on a user-defined network, a container's `--name` is its hostname.
 
+> **Real-world analogy:** It's **contact names in your phone** instead of memorized phone numbers. When a friend gets a new number, "Postgres" in your contacts still works, because the phone book (Docker DNS) is updated for you.
+
 **Why we use it:** IPs change whenever a container is recreated; names don't. The config says `postgres` and never changes.
 
 **Why it matters:** stable, portable config. The same `DB_HOST=postgres` works on my Mac, a teammate's laptop, or a server. Compose (Day 6) names services and creates the network automatically, so this is exactly how the stack is wired from now on.
@@ -61,6 +67,8 @@ See **The big picture** above: the orange detour is what goes away.
 
 **What it is:** containers connect to each other directly instead of going out to the Mac and back in.
 
+> **Real-world analogy:** Two colleagues in the same office were **posting letters to each other via the post office outside**. Now they **walk over to each other's desk**.
+
 **Why we use it:** `host.docker.internal` is a Docker Desktop convenience. It isn't available by default on Linux servers and adds a detour through the host.
 
 **Why it matters:** container-to-container traffic should stay inside Docker: faster, works on every platform, and doesn't depend on host ports.
@@ -70,6 +78,8 @@ See **The big picture** above: the orange detour is what goes away.
 ![Inside weather-net, ingest and dbt reach postgres directly. The outside world can't reach postgres because it has no published port. The Day 8 API publishes port 8000 because it's meant for users.](img/day05-publish.svg)
 
 **What it is:** running the database without publishing its port to the host.
+
+> **Real-world analogy:** Postgres is a **bank vault**: staff (ingest, dbt) reach it from inside the building. You don't add a door from the vault straight onto the street just because the vault has a lock.
 
 **Why we use it:** containers on the same network reach each other directly, so `-p` was only ever for the Mac. Once ingest and dbt run in containers, nothing outside Docker needs the database.
 
@@ -83,6 +93,8 @@ See **The big picture** above: the orange detour is what goes away.
 
 ![bridge: containers get private IPs on an isolated network. host: the container uses the host's network directly with no isolation. none: the container has no network at all.](img/day05-drivers.svg)
 
+> **Real-world analogy:** **bridge** is an **apartment in a gated community**: its own private address, and a gate (`-p`) controls who gets in. **host** is **living in the landlord's house with no internal walls**: you share everything. **none** is **a sealed room with no doors or windows**.
+
 **Why we learn them:** `bridge` is used almost always, but the others have real uses, and choosing one is a security and design decision. Interviewers ask about them to check that you understand isolation, not just commands.
 
 | Driver | What the container gets | Use |
@@ -93,13 +105,14 @@ See **The big picture** above: the orange detour is what goes away.
 
 ## 7. `EXPOSE` vs. `-p`
 
+> **Real-world analogy:** `EXPOSE` is **a sign inside the building** saying "deliveries at door 5432": useful information, but the street door is still locked. `-p` **unlocks a street door** connected to door 5432. Containers on the same network are already inside the building, so they need neither.
+
 **Why it matters:** both mention ports but do very different things. One of the most commonly confused topics in Docker, and a classic interview question.
 
 ![EXPOSE only: docker ps shows 5432/tcp, the Mac gets Connection refused, ingest on the same network still connects. With -p 5432:5432: docker ps shows 0.0.0.0:5432->5432/tcp and the Mac connects.](img/day05-expose-vs-p.svg)
 
 - **`EXPOSE`** is a **label** in the Dockerfile. It documents which port the app listens on. It opens nothing.
 - **`-p`** is a **real opening** on `docker run`. It forwards a host port into the container.
-- Analogy: `EXPOSE` is a sign inside the building saying "deliveries at door 5432"; `-p` unlocks a street door connected to it. Containers on the same network are already inside the building.
 
 What I saw on Day 5:
 

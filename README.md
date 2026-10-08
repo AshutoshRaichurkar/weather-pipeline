@@ -40,6 +40,15 @@ docker compose down -v                      # also delete the database volume
 
 On Apple Silicon, the official dbt image runs under emulation (`platform: linux/amd64`), so dbt takes 15–20 seconds.
 
+## Design decisions
+
+- **`python:3.12-slim` instead of Alpine.** Alpine images are smaller (122 MB vs. 242 MB for ingest), but Alpine uses musl instead of glibc, so many Python packages have no prebuilt wheels and pip compiles them from source: slow, and it can fail. Slim is the safer default, especially for the ML libraries coming in Week 2.
+- **No published port on Postgres.** Only containers on the Compose network use the database, and they reach it directly by name (`postgres:5432`). Publishing the port would only open a way in from outside Docker, which a database shouldn't have.
+- **Healthcheck plus `condition: service_healthy`.** A started container isn't a ready database: Postgres needs a few seconds to initialize. The `pg_isready` healthcheck tells Compose when it actually accepts connections, so ingest never starts too early. `service_completed_successfully` then runs dbt only after ingest succeeds.
+- **`.env` plus `.env.example`.** Real credentials live in `.env`, which is git-ignored. `.env.example` is committed with placeholder values as a template: `cp .env.example .env`.
+- **The official dbt image with a bind-mounted project.** dbt Labs publishes a tested image with dbt and the Postgres adapter, so there's no Dockerfile to maintain. Mounting `./dbt` means editing a model needs no rebuild. Trade-offs: it has no ARM build, so it runs emulated on Apple Silicon, and in production the models would be baked into an image so what runs is exactly what was tested.
+- **Idempotent ingest (`ON CONFLICT DO UPDATE`).** Each run fetches overlapping hours, and ingest reruns on every `docker compose up` and before every `docker compose run dbt`. Upserting on the `(city, observed_at)` primary key means running it once or ten times gives the same table, so reruns and retries are always safe.
+
 ## Repo layout
 
 ```text

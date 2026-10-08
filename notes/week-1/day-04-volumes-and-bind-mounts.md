@@ -17,6 +17,8 @@ By the end of the day I can:
 
 - **The problem (Day 1):** container data lives in the writable layer, and `docker rm` deletes it. Mounts store data **outside** the container.
 
+> **Real-world analogy:** A container is a **hotel room**: it's cleaned out when you check out (the writable layer). A **named volume** is the hotel's **safe-deposit box**: the hotel manages it, you ask for it by name, and it survives your checkout. A **bind mount** is **your own suitcase** that you bring into the room: it lives at your home, and changes are yours. **tmpfs** is a **whiteboard**: fast, wiped when you leave.
+
 **Why it matters:** every real stateful service (databases, uploads, caches) needs this. Choosing the wrong type leads to lost data, permission errors, or code that isn't what you tested.
 
 | Type | Syntax | Data lives | Managed by | Typical use |
@@ -31,11 +33,15 @@ By the end of the day I can:
 
 ![The first pg container loads 768 rows into the pgdata volume. docker rm -f deletes the container, a brand-new pg container mounts the same volume, and count(*) still returns 768.](img/day04-volume-survives.svg)
 
+> **Real-world analogy:** Check out of room 101, check into room 205, and **the safe-deposit box still holds your things**. The room (container) changed; the box (`pgdata`) didn't.
+
 **Why it matters:** containers become disposable. You can upgrade, rename, or recreate Postgres freely (as Day 5 does), and the data stays.
 
 ## 3. Where a volume lives on a Mac
 
 ![Named volumes live inside Docker Desktop's Linux VM at /var/lib/docker/volumes/pgdata/_data, stored on the Mac as one Docker.raw file. A bind mount is a real Mac folder you can open in Finder.](img/day04-where-volume-lives.svg)
+
+> **Real-world analogy:** Your volume is a **storage unit inside a warehouse** (Docker Desktop's Linux VM). You can't walk in from the street (Finder); you ask the warehouse staff to fetch things for you (`docker run -v pgdata:/data alpine ls /data`). A bind mount is a **cupboard in your own house**: open it any time.
 
 **Why it matters:** explains why `ls /var/lib/docker` fails on a Mac, and why you reach volumes only through Docker. On a Linux server, the path is real.
 
@@ -64,6 +70,8 @@ By the end of the day I can:
 ## dbt runs in three places
 
 ![dbt run in three places: the dbt folder on the Mac is bind-mounted into the dbt container, which compiles the models and sends SQL to the pg container, which creates the views and tables.](img/day04-dbt-three-places.svg)
+
+> **Real-world analogy:** dbt is a **chef from a staffing agency** (the official image): trained and ready, but they bring no recipes. You **lend them your recipe book** (the bind-mounted `dbt/` folder); edit it any time without retraining the chef. The chef sends orders to **the kitchen** (Postgres), which does the actual cooking.
 
 **Why it matters:** a generic official image plus your project through a bind mount means no Dockerfile to maintain and instant edits. It's the standard development pattern for tools like dbt.
 

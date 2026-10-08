@@ -17,6 +17,8 @@ By the end of the day I can:
 
 - **An image is a stack of layers.** Each `FROM`, `COPY`, and `RUN` adds one, holding only the files that step changed. Settings-only instructions (`WORKDIR`, `ENV`, `ENTRYPOINT`) add 0 B.
 
+> **Real-world analogy:** Layers are **a stack of transparent sheets** on an overhead projector: each sheet adds only what changed, and the picture you see is all of them stacked. The base image is the thick sheet at the bottom; your code is a few pen marks on top.
+
 **Why it matters:** the size of an image is the sum of its layers. In my image the base is 85% of the size and my code is almost nothing, so the base image choice matters far more than code size.
 
 ## 2. The build cache and instruction order
@@ -29,6 +31,8 @@ By the end of the day I can:
 - **Once one step misses the cache, every later step rebuilds too.** Each layer sits on top of the previous one.
 - **Order from least to most frequently changed:** base image, system packages, dependency list, dependency install, then code.
 
+> **Real-world analogy:** It's a **stack of plates**: to swap a plate in the middle, you must lift off and re-stack every plate above it. So put the plates you change most often (your code) **on top**, and the ones you rarely touch (dependencies) **underneath**.
+
 **Why it matters:** you rebuild many times a day, and CI rebuilds on every commit. Ordering the Dockerfile well turns minutes into seconds. "Why is my Docker build slow?" is one of the most common interview questions, and this is almost always the answer.
 
 ## 3. Cache mounts
@@ -36,6 +40,8 @@ By the end of the day I can:
 ![Build 1 downloads all 8 packages from PyPI and saves them in the BuildKit cache mount. Build 2 reuses them and downloads only the new package. The cache never enters the image.](img/day03-cache-mount.svg)
 
 - **Cache mounts** (`RUN --mount=type=cache,target=...`) keep a tool's cache (e.g. pip downloads) between builds without saving it into the image.
+
+> **Real-world analogy:** The first time you cook, you **buy every ingredient at the store** (PyPI). After that, you keep them in your **pantry** (the cache mount), not in the lunchbox you hand out (the image). Next time a recipe changes, you only shop for the one new ingredient.
 
 **Why it matters:** the instruction-order fix doesn't help when dependencies change. The cache mount does, without making the image bigger.
 
@@ -71,6 +77,8 @@ ENTRYPOINT ["python", "ingest.py"]
 ## Base images
 
 ![Approximate base image sizes: python:3.12 about 1 GB, python:3.12-slim 205 MB, alpine about 60 MB, distroless about 50 MB. My weather-ingest was 242 MB on slim and 122 MB on alpine.](img/day03-base-images.svg)
+
+> **Real-world analogy:** Packing for a trip: `python:3.12` is a **huge suitcase** with everything; `slim` is a **carry-on** with the essentials. `alpine` is a **backpack**: light, but it uses a different plug standard (musl), so some of your devices (Python wheels) need an adapter you have to build (compiling). Distroless is a **sealed envelope**: nothing extra, and you can't open it to look inside (no shell).
 
 **Why it matters:** smaller images download faster, start faster, and contain fewer packages that can have vulnerabilities (Day 10). But the smallest isn't always best: Alpine can break Python packages.
 

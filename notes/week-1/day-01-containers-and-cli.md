@@ -19,6 +19,8 @@ By the end of the day I can:
 - **Container:** a running instance of an image. Like an object. One image can run many containers.
 - **Writable layer:** each container gets a thin writable layer on top of the read-only image layers. Every file it creates or changes lives there.
 
+> **Real-world analogy:** An **image is a laminated recipe card**: read-only, and any number of cooks can use it. A **container is a dish cooked from it**. Each cook's plate is separate, and whatever you add to your plate (the writable layer) is thrown away when the plate is cleared.
+
 **Why it matters:** this explains almost everything that follows: why containers start fast (the image is already there), why many containers can share one image cheaply, and why data written inside a container is fragile (it's only in that container's writable layer).
 
 ## 2. Containers vs. VMs
@@ -28,6 +30,8 @@ By the end of the day I can:
 - A VM runs a whole guest OS with its own kernel. A container is just a process on the host's kernel, isolated by:
   - **Namespaces:** what the process can *see* (its own processes, network, filesystem, hostname).
   - **cgroups:** what it can *use* (CPU, memory, I/O limits).
+
+> **Real-world analogy:** **VMs are separate houses**: each has its own foundation, plumbing and wiring (a full guest OS), so they're expensive and slow to build. **Containers are apartments in one building**: they share the foundation and plumbing (the host kernel), but each has its own locked door (**namespaces**: what you can see) and its own metered electricity (**cgroups**: what you can use).
 
 **Why it matters:** containers are MBs and start in seconds because there's no OS to boot. It's also the classic first interview question ("what is a container, really?"), and the answer is "a process with namespaces and cgroups."
 
@@ -41,6 +45,8 @@ By the end of the day I can:
   - A tag (`postgres:16`) is a label that can move to a newer image. `16` means the newest 16.x.
   - A digest (`postgres@sha256:...`) always points to one exact image.
 
+> **Real-world analogy:** A **tag is a job title on an office door**, like "Team Lead": the person behind the door can change. A **digest is a fingerprint**: it identifies exactly one person, forever. `postgres:16` means "whoever is the current 16.x"; `postgres@sha256:...` means "this exact one."
+
 **Why it matters:** pinning a major version (`16`) gets bug fixes without surprise upgrades that could break data files. Digests come back on Day 10 (security) and tags on Day 13 (why deploying `:latest` is risky).
 
 ## 4. The container lifecycle
@@ -51,6 +57,8 @@ By the end of the day I can:
 - `docker rm` deletes it, so the data is gone. Databases need volumes (Day 4).
 - A crashed container disappears from `docker ps` but still shows in `docker ps -a`, with its logs and exit code.
 
+> **Real-world analogy:** `docker stop` is **closing your laptop lid**: everything is still there when you open it (`docker start`). `docker rm` is **wiping and recycling the laptop**. `docker ps` is **who's in the office right now**; `docker ps -a` is **the full staff list**, including people who've gone home.
+
 **Why it matters:** knowing which command destroys what prevents accidental data loss, and `docker ps -a` is the first step in debugging any container that died.
 
 ## 5. Port publishing
@@ -58,6 +66,8 @@ By the end of the day I can:
 ![ingest.py on the Mac connects to localhost:5432, and -p 5432:5432 forwards it into the pg container's port 5432.](img/day01-port-publish.svg)
 
 - `-p HOST:CONTAINER` forwards a port on your machine into the container. Without it, the service is only reachable inside the container's network namespace.
+
+> **Real-world analogy:** Your Mac is a **hotel with one public phone number**. `-p 5432:5432` tells reception: "calls for extension 5432 go to room `pg`." Without it, the room exists, but nobody outside the hotel can call it.
 
 **Why it matters:** it's how anything outside Docker (your Mac, a browser, users) reaches a container. On Day 5 we learn the flip side: containers talking to each other don't need it, and databases shouldn't have it.
 

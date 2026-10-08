@@ -21,6 +21,8 @@ By the end of the day I can:
 - **Image names** come from `docker build -t`, not from the Dockerfile. No tag means `:latest`. The name lives in Docker on your machine, not in the repo.
 - **Container names** come from `docker run --name`. Without it, Docker picks a random name like `eager_turing`.
 
+> **Real-world analogy:** `docker build` is **cooking a meal and freezing it**: the slow prep (`RUN pip install`) happens once. `docker run` is **microwaving a portion**: fast, every time. `ENTRYPOINT` is the heating instruction printed on the box; it's only followed when someone eats.
+
 **Why it matters:** packaging the app with its dependencies means it runs the same everywhere, with no venv to set up. Knowing *when* each instruction runs explains why code changes need a rebuild and why containers start in seconds.
 
 ## 2. The build context and `.dockerignore`
@@ -30,6 +32,8 @@ By the end of the day I can:
 - **Build context:** the folder passed to `docker build`. It's sent to the build engine, and `COPY` can only reach files inside it.
 - **`.dockerignore`:** excludes files from the build context. Keeps builds fast and keeps secrets (`.env`) and junk (`venv`, `.git`) out of the image.
 
+> **Real-world analogy:** The build context is **the one bag you hand to a packer**. They can only pack what's in that bag (`COPY` can't reach outside `ingest/`). `.dockerignore` is your **"do not pack" list**: passports (`.env`) and dirty laundry (`venv`, `__pycache__`) stay out.
+
 **Why it matters:** a forgotten `.env` copied into an image is a leaked secret for anyone who pulls it. A small context also makes builds faster and caching more reliable (Day 3).
 
 ## 3. `localhost` and `host.docker.internal`
@@ -37,6 +41,8 @@ By the end of the day I can:
 ![Without DB_HOST, the container connects to its own localhost and gets Connection refused. With DB_HOST=host.docker.internal, it reaches the Mac's port 5432, which -p forwards into pg.](img/day02-host-docker-internal.svg)
 
 - **`localhost` inside a container is the container itself**, because each container has its own network namespace. `host.docker.internal` (Docker Desktop) points back to your machine.
+
+> **Real-world analogy:** In an apartment building, **"my home" means a different place for every tenant**: that's `localhost` inside each container. `host.docker.internal` is **"the building's front desk"**: a special address that leads out to the landlord's office (your Mac).
 
 **Why it matters:** this is the most common "works on my machine, fails in Docker" error. Reading connection settings from environment variables means the same code works on the Mac and in a container. It's a temporary fix; Day 5 replaces it with a Docker network.
 
@@ -57,6 +63,8 @@ By the end of the day I can:
 
 ![The same command docker run weather-ingest --city boston: with CMD the words replace the command and it fails; with ENTRYPOINT they're appended and python ingest.py --city boston runs.](img/day02-cmd-vs-entrypoint.svg)
 
+> **Real-world analogy:** `ENTRYPOINT` is a **coffee machine**: the buttons you press ("large, oat milk") are *added*, but it always makes coffee. `CMD` is a **default playlist**: name another song and it *replaces* the whole playlist.
+
 **Why it matters:** it decides whether users can pass flags to your image or accidentally replace what it runs. A classic interview question.
 
 With the Dockerfile having one of these:
@@ -74,6 +82,8 @@ With the Dockerfile having one of these:
 ## Exec form vs. shell form
 
 ![docker stop sends SIGTERM to PID 1. In exec form python is PID 1 and shuts down cleanly. In shell form /bin/sh is PID 1, doesn't pass the signal on, and Docker kills python after 10 seconds.](img/day02-exec-vs-shell.svg)
+
+> **Real-world analogy:** Exec form is **telling the worker directly** that it's closing time; they tidy up and leave. Shell form is **telling a receptionist who never passes the message on**: the worker keeps going until security (SIGKILL) removes them 10 seconds later, mid-task.
 
 **Why it matters:** with shell form, every `docker stop` takes 10 seconds and kills your app mid-work, which can leave half-written data. Exec form lets it shut down cleanly.
 

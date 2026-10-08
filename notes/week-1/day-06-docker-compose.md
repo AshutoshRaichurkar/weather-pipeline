@@ -25,6 +25,8 @@ By the end of the day I can:
 
 **What it is:** a YAML file listing the services (postgres, ingest, dbt) with everything I was typing by hand.
 
+> **Real-world analogy:** Day 5 was **giving a taxi driver turn-by-turn directions on every trip**. `compose.yaml` is **typing the address into the GPS once**: anyone can make the same trip, the same way, every time.
+
 **Why we use it:** the Day 5 setup lives in my terminal history and my head. One missed `--network` and things break.
 
 **Why it matters:** the file *is* the documentation, it's version-controlled, and it gives everyone the same setup. Almost every real project ships a `compose.yaml` for local development.
@@ -56,6 +58,8 @@ volumes:
 
 **What it is:** Compose creates a network for the project automatically (`<project>_default`, where the project is the folder name), and each service's name becomes its hostname.
 
+> **Real-world analogy:** Booking a **meeting room** in a good office: the room comes with **name badges for everyone** already set up. You don't build the room or print the badges yourself.
+
 **Why it matters:** Day 5 did this by hand, so I know exactly what Compose is doing for me. `DB_HOST=postgres` keeps working with no `docker network create`.
 
 ## 3. `.env` and variable substitution
@@ -63,6 +67,8 @@ volumes:
 ![.env (git-ignored) holds POSTGRES_PASSWORD=s3cret-local; compose.yaml (committed) only says ${POSTGRES_PASSWORD}; the container receives the real value. .env.example is committed with a placeholder, and docker compose config shows the substituted result.](img/day06-env.svg)
 
 **What it is:** a `.env` file next to `compose.yaml` holds values like `POSTGRES_PASSWORD=...`. `compose.yaml` refers to them as `${POSTGRES_PASSWORD}`, and Compose fills them in automatically.
+
+> **Real-world analogy:** `compose.yaml` is a note on the door saying **"use the key from the key box"**: safe to share. `.env` is **the key box that stays at home**. `.env.example` is **a photo of an empty key box labeled "put your key here"**, so others know what they need.
 
 **Why we use it:** passwords shouldn't be in a committed file. `.env` is already in `.gitignore`. A committed `.env.example` shows which variables are needed.
 
@@ -78,6 +84,8 @@ volumes:
 **What it is:**
 - A **healthcheck** is a command Docker runs repeatedly to ask "is this service actually ready?" For Postgres: `pg_isready`.
 - **`depends_on`** with **`condition: service_healthy`** makes a service wait until another reports healthy.
+
+> **Real-world analogy:** A **restaurant unlocks its doors (started) while the kitchen is still warming up**. With plain `depends_on`, guests rush in the moment the door opens, and their orders fail. A healthcheck is the **host asking the kitchen "ready?"** before seating anyone (`service_healthy`). `service_completed_successfully` is a **relay race**: the next runner only starts once the baton is handed over.
 
 **Why we use it:** I've already seen `the database system is starting up` when querying too soon. A started container isn't a ready application.
 
@@ -113,6 +121,8 @@ services:
 ![docker compose up -d starts postgres, which stays up, and ingest, which loads data and exits. docker compose run --rm dbt run starts one dbt container with the network, env, mount and platform from compose.yaml, then deletes it. docker compose down removes containers and the network but keeps pgdata; down -v also deletes the volume.](img/day06-up-vs-run.svg)
 
 **What it is:** `docker compose up` starts the services defined in the file. `docker compose run <service> <args>` runs one container from a service's definition, once.
+
+> **Real-world analogy:** Postgres is a **shop that's open all day** (a service). ingest and dbt are **deliveries**: they arrive, unload, and leave (jobs). `docker compose run` is **ordering one delivery on demand**. `down` is **closing the shop for the night** (the stock stays); `down -v` is **closing and throwing out all the stock**.
 
 **Why we use it:** dbt isn't something that runs all the time; I run it when I need it. `docker compose run --rm dbt run` replaces the long Day 5 dbt command, and the `run` at the end goes to dbt's `ENTRYPOINT`, just like before.
 
