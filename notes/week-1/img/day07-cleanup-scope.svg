@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="355" viewBox="0 0 760 355" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif">
+  <rect width="760" height="355" rx="12" fill="#ffffff"/>
+  <text x="380" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#212121">What each cleanup command deletes</text>
+
+  <rect x="20" y="42" width="720" height="58" rx="6" fill="#f5f5f5"/>
+  <g font-size="11" font-weight="700" text-anchor="middle">
+    <text x="377" y="62" fill="#2e7d32">this project</text>
+    <text x="602" y="62" fill="#c62828">OTHER projects on this Mac</text>
+  </g>
+  <line x1="490" y1="48" x2="490" y2="330" stroke="#e0e0e0" stroke-width="2"/>
+  <g font-size="10" fill="#424242" text-anchor="middle">
+    <text x="302" y="82">containers</text><text x="302" y="94">+ network</text>
+    <text x="377" y="82">pgdata</text><text x="377" y="94">(data)</text>
+    <text x="452" y="82">built</text><text x="452" y="94">ingest image</text>
+    <text x="527" y="82">stopped</text><text x="527" y="94">containers</text>
+    <text x="602" y="82">images</text><text x="602" y="94">(e.g. 11 GB airflow)</text>
+    <text x="690" y="82">named volumes</text><text x="690" y="94">(their databases)</text>
+  </g>
+
+  <g font-size="12" font-family="Menlo,Consolas,monospace" fill="#212121">
+    <text x="30" y="128">compose down</text>
+    <text x="30" y="166">compose down -v</text>
+    <text x="30" y="204">compose down -v --rmi local</text>
+    <text x="30" y="242">system prune</text>
+    <text x="30" y="280">system prune -a</text>
+    <text x="30" y="318">volume prune -a</text>
+  </g>
+  <g stroke="#eeeeee"><line x1="20" y1="142" x2="740" y2="142"/><line x1="20" y1="180" x2="740" y2="180"/><line x1="20" y1="218" x2="740" y2="218"/><line x1="20" y1="256" x2="740" y2="256"/><line x1="20" y1="294" x2="740" y2="294"/></g>
+
+  <g font-size="15" text-anchor="middle" font-weight="700">
+    <text x="302" y="129" fill="#2e7d32">✓</text><text x="377" y="129" fill="#bdbdbd">–</text><text x="452" y="129" fill="#bdbdbd">–</text><text x="527" y="129" fill="#bdbdbd">–</text><text x="602" y="129" fill="#bdbdbd">–</text><text x="690" y="129" fill="#bdbdbd">–</text>
+    <text x="302" y="167" fill="#2e7d32">✓</text><text x="377" y="167" fill="#2e7d32">✓</text><text x="452" y="167" fill="#bdbdbd">–</text><text x="527" y="167" fill="#bdbdbd">–</text><text x="602" y="167" fill="#bdbdbd">–</text><text x="690" y="167" fill="#bdbdbd">–</text>
+    <text x="302" y="205" fill="#2e7d32">✓</text><text x="377" y="205" fill="#2e7d32">✓</text><text x="452" y="205" fill="#2e7d32">✓</text><text x="527" y="205" fill="#bdbdbd">–</text><text x="602" y="205" fill="#bdbdbd">–</text><text x="690" y="205" fill="#bdbdbd">–</text>
+    <text x="302" y="243" fill="#ef6c00" font-size="11">if stopped</text><text x="377" y="243" fill="#bdbdbd">–</text><text x="452" y="243" fill="#bdbdbd">–</text><text x="527" y="243" fill="#ef6c00">✓</text><text x="602" y="243" fill="#ef6c00" font-size="11">dangling only</text><text x="690" y="243" fill="#bdbdbd">–</text>
+    <text x="302" y="281" fill="#ef6c00" font-size="11">if stopped</text><text x="377" y="281" fill="#bdbdbd">–</text><text x="452" y="281" fill="#ef6c00" font-size="11">if unused</text><text x="527" y="281" fill="#ef6c00">✓</text><text x="602" y="281" fill="#c62828" font-size="11">ALL unused ✗</text><text x="690" y="281" fill="#bdbdbd">–</text>
+    <text x="302" y="319" fill="#bdbdbd">–</text><text x="377" y="319" fill="#c62828" font-size="11">if unused ✗</text><text x="452" y="319" fill="#bdbdbd">–</text><text x="527" y="319" fill="#bdbdbd">–</text><text x="602" y="319" fill="#bdbdbd">–</text><text x="690" y="319" fill="#c62828" font-size="11">ALL unused ✗</text>
+  </g>
+  <rect x="20" y="146" width="720" height="72" rx="4" fill="none" stroke="#2e7d32" stroke-width="2"/>
+  <text x="380" y="347" text-anchor="middle" font-size="11" fill="#616161">Green box = safe for Day 7: only this project.  Red = deletes other projects' images or databases. "Unused" = no container (even a stopped one) refers to it.</text>
+</svg>

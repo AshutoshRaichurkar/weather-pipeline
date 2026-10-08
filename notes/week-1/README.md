@@ -10,4 +10,4 @@ Goal: Postgres, ingestion, and dbt run together with one command.
 | 4 | Volumes and bind mounts | [day-04-volumes-and-bind-mounts.md](day-04-volumes-and-bind-mounts.md) |
 | 5 | Networking the hard way | [day-05-networking.md](day-05-networking.md) |
 | 6 | Docker Compose | [day-06-docker-compose.md](day-06-docker-compose.md) |
-| 7 | Catch-up and review | |
+| 7 | Catch-up and review | [day-07-review.md](day-07-review.md) |

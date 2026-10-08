@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="400" viewBox="0 0 760 400" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif">
+  <defs>
+    <marker id="g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2e7d32"/></marker>
+    <marker id="o" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef6c00"/></marker>
+    <marker id="k" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#757575"/></marker>
+  </defs>
+  <rect width="760" height="400" rx="12" fill="#ffffff"/>
+  <text x="380" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#212121">Weather Pipeline: architecture (end of Week 1)</text>
+
+  <!-- internet -->
+  <rect x="20" y="60" width="130" height="56" rx="28" fill="#fafafa" stroke="#9e9e9e"/>
+  <text x="85" y="84" text-anchor="middle" font-size="13" font-weight="700" fill="#424242">Open-Meteo</text>
+  <text x="85" y="102" text-anchor="middle" font-size="11" fill="#757575">public API · no key</text>
+
+  <!-- compose project -->
+  <rect x="180" y="45" width="560" height="270" rx="12" fill="#e8f5e9" stroke="#43a047" stroke-dasharray="6 4"/>
+  <text x="196" y="66" font-size="12" font-weight="700" fill="#2e7d32">docker compose project · network weather-pipeline_default · no published ports</text>
+
+  <rect x="205" y="85" width="170" height="80" rx="8" fill="#e3f2fd" stroke="#1565c0" stroke-dasharray="5 3"/>
+  <text x="290" y="108" text-anchor="middle" font-size="14" font-weight="700" fill="#0d47a1">ingest</text>
+  <text x="290" y="126" text-anchor="middle" font-size="11" font-family="Menlo,Consolas,monospace" fill="#0d47a1">build: ./ingest</text>
+  <text x="290" y="143" text-anchor="middle" font-size="11" fill="#0d47a1">job · python:3.12-slim</text>
+  <text x="290" y="158" text-anchor="middle" font-size="10" fill="#0d47a1">loads raw.hourly_weather</text>
+
+  <rect x="445" y="150" width="190" height="100" rx="8" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+  <text x="540" y="174" text-anchor="middle" font-size="14" font-weight="700" fill="#0d47a1">postgres</text>
+  <text x="540" y="192" text-anchor="middle" font-size="11" font-family="Menlo,Consolas,monospace" fill="#0d47a1">postgres:16</text>
+  <text x="540" y="209" text-anchor="middle" font-size="11" fill="#0d47a1">service · healthcheck pg_isready</text>
+  <text x="540" y="226" text-anchor="middle" font-size="10" fill="#0d47a1">raw · analytics_staging</text>
+  <text x="540" y="240" text-anchor="middle" font-size="10" fill="#0d47a1">analytics_marts</text>
+
+  <rect x="205" y="215" width="170" height="80" rx="8" fill="#e3f2fd" stroke="#1565c0" stroke-dasharray="5 3"/>
+  <text x="290" y="238" text-anchor="middle" font-size="14" font-weight="700" fill="#0d47a1">dbt</text>
+  <text x="290" y="256" text-anchor="middle" font-size="11" font-family="Menlo,Consolas,monospace" fill="#0d47a1">dbt-postgres:1.9</text>
+  <text x="290" y="273" text-anchor="middle" font-size="11" fill="#0d47a1">job · linux/amd64</text>
+  <text x="290" y="288" text-anchor="middle" font-size="10" fill="#0d47a1">builds staging + marts</text>
+
+  <!-- volume -->
+  <rect x="660" y="160" width="70" height="80" rx="10" fill="#c8e6c9" stroke="#2e7d32" stroke-width="2"/>
+  <text x="695" y="190" text-anchor="middle" font-size="11" font-weight="700" fill="#1b5e20">volume</text>
+  <text x="695" y="206" text-anchor="middle" font-size="10" fill="#1b5e20">pgdata</text>
+  <text x="695" y="222" text-anchor="middle" font-size="9" fill="#1b5e20">survives</text>
+  <text x="695" y="233" text-anchor="middle" font-size="9" fill="#1b5e20">rm / down</text>
+  <line x1="635" y1="200" x2="658" y2="200" stroke="#2e7d32" stroke-width="3"/>
+
+  <!-- arrows -->
+  <line x1="150" y1="92" x2="202" y2="110" stroke="#ef6c00" stroke-width="2" marker-end="url(#o)"/>
+  <text x="168" y="135" font-size="10" fill="#e65100">HTTPS</text>
+  <path d="M375,125 C420,125 450,140 470,148" fill="none" stroke="#2e7d32" stroke-width="2" marker-end="url(#g)"/>
+  <text x="400" y="118" font-size="10" font-family="Menlo,Consolas,monospace" fill="#2e7d32">postgres:5432</text>
+  <path d="M375,255 C420,255 430,240 443,232" fill="none" stroke="#2e7d32" stroke-width="2" marker-end="url(#g)"/>
+  <text x="385" y="275" font-size="10" font-family="Menlo,Consolas,monospace" fill="#2e7d32">SQL</text>
+
+  <!-- order -->
+  <line x1="290" y1="165" x2="290" y2="212" stroke="#757575" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#k)"/>
+  <text x="298" y="193" font-size="10" fill="#616161">then</text>
+
+  <!-- host files -->
+  <rect x="20" y="330" width="720" height="62" rx="10" fill="#fff8e1" stroke="#f9a825"/>
+  <text x="36" y="351" font-size="12" font-weight="700" fill="#f57f17">On the host</text>
+  <text x="36" y="370" font-size="11" fill="#5d4037"><tspan font-family="Menlo,Consolas,monospace">./dbt</tspan> is bind-mounted into dbt (edit models, no rebuild)  ·  <tspan font-family="Menlo,Consolas,monospace">.env</tspan> (git-ignored) supplies POSTGRES_PASSWORD</text>
+  <text x="36" y="385" font-size="11" fill="#5d4037">Start order: postgres healthy → ingest exits 0 → dbt</text>
+  <line x1="150" y1="330" x2="250" y2="297" stroke="#f9a825" stroke-width="1.5" stroke-dasharray="4 3"/>
+</svg>

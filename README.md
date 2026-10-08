@@ -8,9 +8,7 @@ A small containerized data platform, built step by step while learning Docker. I
 
 ## How it works today
 
-```text
-Open-Meteo API → ingest → postgres (raw.hourly_weather) → dbt → analytics_staging / analytics_marts
-```
+![Weather Pipeline architecture: Open-Meteo feeds the ingest job; ingest and dbt connect to postgres by name on the Compose network; postgres stores data in the pgdata volume; start order is postgres healthy, then ingest exits 0, then dbt.](docs/architecture.svg)
 
 | Service | What it does | Runs as |
 | --- | --- | --- |

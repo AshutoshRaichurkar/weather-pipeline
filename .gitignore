@@ -3,4 +3,4 @@ __pycache__/
 .env
 dbt/target/
 dbt/logs/
-dbt/.user.yml
+dbt/.user.ymlbackups/

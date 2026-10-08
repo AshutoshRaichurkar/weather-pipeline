@@ -63,8 +63,7 @@ def main():
             rows = fetch_city(lat, lon)
             with conn.cursor() as cur:
                 cur.executemany(INSERT_ROW, [(city, ts, temp) for ts, temp in rows])
-            print(f"{city}: loaded {len(rows)} rows!")
-            print("Hello World")
+            print(f"{city}: loaded {len(rows)} rows")
 
 
 if __name__ == "__main__":
